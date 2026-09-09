@@ -25,7 +25,7 @@ Create an empty directory for the topic, open Claude Code inside it, and run:
 /teach-me
 ```
 
-The first session interviews you about why you want to learn this, sets up your study habit, and teaches the smallest possible lesson. Every session after that follows the same ritual: reviews in chat, one new chunk in the browser, a closing check, and a log line in your habit file. The agent starts in English and switches to the language of your first full sentence.
+Session zero has no lesson and no timer. It interviews you in rounds about why you want to learn this, and sets up your study habit. Every session after that follows the same ritual inside one pomodoro: reviews in chat, one new chunk in the browser, a closing check, and a log line in your habit file. The agent works in your language, taken from your setup or from what you typed, and asks if it cannot tell.
 
 The directory becomes your teaching workspace: `MISSION.md`, `HABIT.md`, `GLOSSARY.md`, `RESOURCES.md`, `NOTES.md`, and folders for lessons, references, learning records and shared assets.
 

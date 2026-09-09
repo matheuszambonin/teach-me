@@ -2,7 +2,7 @@
 
 Learning records live in `./learning-records/` and use sequential numbering: `0001-slug.md`, `0002-slug.md`, etc. Create the directory lazily: only when the first record is written.
 
-They are the teaching equivalent of ADRs: they capture non-obvious lessons, key insights, and stated prior knowledge that will steer future sessions. They are used to calculate the zone of proximal development, and each one is reviewed on the ladder in [REVIEW-FORMAT.md](./REVIEW-FORMAT.md).
+They are the teaching equivalent of ADRs: they capture non-obvious lessons, key insights, and stated prior knowledge that will steer future sessions. They are used to calculate the zone of proximal development, and each one that something has tested is reviewed on the ladder in [REVIEW-FORMAT.md](./REVIEW-FORMAT.md).
 
 ## Template
 
@@ -17,6 +17,8 @@ Next review: {YYYY-MM-DD} · {interval}
 That is the whole format. A learning record can be a single paragraph. The value is recording _that_ this is now known and _why_ it changes what to teach next, not in filling out sections.
 
 The `Next review:` line is the third line of the file. A new record is born at `1d`. The label stays in English in every workspace language; the agent greps for it.
+
+A record of prior knowledge the learner claimed in session zero is the one record written without that line. Nothing has tested the claim, so it steers what to teach next without entering the ladder. The first closing check or review that grades it recalled or with hint adds the line, born at `1d`.
 
 ## Optional sections
 
@@ -35,7 +37,7 @@ Scan `./learning-records/` for the highest existing number and increment by one.
 Write one when any of these is true:
 
 1. **The learner demonstrated genuine understanding of something non-trivial**: not just exposure, but evidence they can use the concept correctly. The closing check at the end of a lesson is the default evidence. This sets a new floor for what to teach next.
-2. **The learner disclosed prior knowledge**: "I already know X." Record it so future sessions don't re-teach it. Also record the _depth_ claimed.
+2. **The learner disclosed prior knowledge**: "I already know X." Record it so future sessions don't re-teach it. Also record the _depth_ claimed. Until something tests the claim, the record carries no `Next review:` line.
 3. **A misconception was corrected**: the learner previously believed something wrong and now sees why. These are high-value: they predict future stumbling blocks for related topics.
 4. **The mission shifted in response to learning**: the learner discovered they cared about something different than they thought. Cross-link to [[MISSION.md]] and update it.
 

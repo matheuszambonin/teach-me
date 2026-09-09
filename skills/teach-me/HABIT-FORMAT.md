@@ -32,7 +32,7 @@ When {cue}, I open the workspace and run the session, because I get {reward}.
 {One person who knows the learner is doing this, or "none".}
 
 ## Log
-- {YYYY-MM-DD} · done · {lesson 0004 | review | habit session}
+- {YYYY-MM-DD} · done · {session zero | lesson 0004 | review | habit session}
 - {YYYY-MM-DD} to {YYYY-MM-DD} · lapse · {cue did not fire | did something else | not worth it} ({one-word reason})
 - weeks {N} to {M} · {k} done · {j} lapses
 ```
@@ -49,7 +49,7 @@ When {cue}, I open the workspace and run the session, because I get {reward}.
 
 ## Lifecycle
 
-- **Created** in the first session, after `MISSION.md` and before the first lesson: five direct questions, defaults proposed from the mission's constraints, five minutes.
+- **Created** in round 2 of session zero, after `MISSION.md` and before session 1: the seven fields, defaults proposed from the mission's Constraints.
 - **Touched every session**: the ritual prints Craving and Reward at the start; the agent writes the `done` line at the end.
 - **Lapse detected** at the start of a session when the gap exceeds twice the Cadence interval, or when the learner reports it.
 - **First lapse**: one three-way question (cue did not fire / did something else / not worth it), one field changed, lesson continues.

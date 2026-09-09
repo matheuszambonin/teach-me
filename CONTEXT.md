@@ -67,6 +67,10 @@ _Avoid_: catch-up, cramming
 Reopening HABIT.md with the learner at its `Next review:` date or after a habit session. Belongs to the study habit, never a retrieval test.
 _Avoid_: review (reserved for records and references), check-in
 
+**Session zero**:
+The interview that opens a workspace, before any lesson and outside the pomodoro. Runs in rounds of numbered questions, each with the agent's recommended answer, and writes MISSION.md and HABIT.md. The session after it is session 1, an ordinary session ritual with no reviews.
+_Avoid_: onboarding, first session, mission interview
+
 **Opening**:
 The first block of the session ritual, in chat with files closed: lapse detection, Craving and Reward, timer, carry question follow-up, up to three reviews, chunk choice, lesson written and opened.
 _Avoid_: warm-up, intro, check-in
@@ -92,5 +96,5 @@ The one open question the learner takes out of a session for the diffuse mode, p
 _Avoid_: homework, exit ticket
 
 **Learner's language**:
-The language fixed by the learner's first full sentence, recorded on the first line of NOTES.md. Every reply and every workspace file follows it, except machine-read labels, which stay in English. Changes only when the learner asks.
+The language every reply and every workspace file follows, recorded on the first line of NOTES.md. Fixed before the first round of Session zero, by precedence: the agent's environment, else a full sentence in the argument to teach-me, else asking. Machine-read labels stay in English. Changes only when the learner asks.
 _Avoid_: locale, default language, Portuguese (as a fixed default)

@@ -19,7 +19,7 @@ Treat the current directory as the teaching workspace. The learner's state lives
 - `NOTES.md`: the learner's language on line one, then preferences and working notes. See [NOTES.md](#notesmd).
 - `./lessons/NNNN-<dash-case-name>.html`: one lesson per session, one chunk per lesson, each declaring its chunk type in a `chunk` meta tag. Format in [LESSON-FORMAT.md](./LESSON-FORMAT.md).
 - `./reference/*.html`: the compressed essence of the lessons. Cheat sheets, reference algorithms, syntax, sequences. Printable, built for quick lookup, each carrying a `next-review` meta tag. See [Reference documents](#reference-documents).
-- `./learning-records/NNNN-<dash-case-name>.md`: what the learner has shown they can do, each with a `Next review:` line. They drive the zone of proximal development. Format in [LEARNING-RECORD-FORMAT.md](./LEARNING-RECORD-FORMAT.md).
+- `./learning-records/NNNN-<dash-case-name>.md`: what the learner has shown they can do, each with a `Next review:` line once something has tested it. They drive the zone of proximal development. Format in [LEARNING-RECORD-FORMAT.md](./LEARNING-RECORD-FORMAT.md).
 - `./assets/*`: components shared across lessons. See [Assets](#assets).
 
 ## Philosophy
@@ -44,7 +44,7 @@ Fluency strength is in-the-moment retrieval. Storage strength is long-term reten
 
 ## Session ritual
 
-Every session runs the same three blocks inside one 25-minute pomodoro. The learner keeps the timer. When it rings, go to Closing with whatever is done.
+Every session runs the same three blocks inside one 25-minute pomodoro. The learner keeps the timer. When it rings, go to Closing with whatever is done. Session zero, below, is the exception.
 
 ### Opening (chat, files closed, up to 5 minutes)
 
@@ -69,9 +69,21 @@ The learner works the lesson. Answer questions as they come. If the learner stal
 
 Review sessions and habit sessions skip the chunk-dependent steps (1, 2, and the carry question). A review session's carry question points at the weakest item reviewed. A habit session has none and reschedules the `Next review:` line of `HABIT.md` instead.
 
-### First session
+### Session zero
 
-Reply in English until the learner has written a full sentence, then fix the language (see [Language](#language)). Run the mission interview, create `HABIT.md`, and skip reviews. The timer starts when the lesson is about to open. The lesson is the smallest possible one. Closing is normal.
+The first time the learner opens the workspace, there is no lesson and no timer. Session zero is one interview, and it writes `MISSION.md` and `HABIT.md`. Session 1 is a normal session with no reviews, and its lesson is the smallest possible one.
+
+Fix the language first, by the precedence in [Language](#language). Then interview in rounds. A round is a numbered batch of questions, each with the answer you recommend. Ask the whole round, then wait for the learner before opening the next one:
+
+1. The mission, per [The mission](#the-mission). Write `MISSION.md` when the round closes.
+2. The study habit: the seven fields of [HABIT-FORMAT.md](./HABIT-FORMAT.md), with defaults proposed from the mission's Constraints. Write `HABIT.md` when the round closes.
+3. Only what the first two rounds left open.
+
+Three rounds is the limit. Fill whatever is still blank with the default you recommended, say what you filled, and let the structural review of `HABIT.md` correct it. You write each file as its round closes, so a session zero abandoned halfway still leaves the decisions on disk.
+
+The ritual, the pomodoro and the review ladder are yours, not the learner's. Present them as given, and if the learner asks why one of them works that way, answer with the chapter (see [Source books](#source-books)).
+
+Close by reading both files back to the learner and writing the first log line, `done · session zero`. It is the first small win, and lapse detection counts from it (Duhigg ch. 4).
 
 ### In-session procrastination
 
@@ -92,7 +104,7 @@ A review is a retrieval test of one learning record or one reference, in chat, f
 
 ## Study habit
 
-`HABIT.md` records the learner's habit loop: a cue, the session ritual as the routine, a reward, and the craving that links them (Duhigg ch. 1, 2). The ritual is the routine, so the file points at it and never describes it. Create the file in the first session, after `MISSION.md` and before the first lesson. Five direct questions, defaults proposed from the mission's constraints, five minutes.
+`HABIT.md` records the learner's habit loop: a cue, the session ritual as the routine, a reward, and the craving that links them (Duhigg ch. 1, 2). The ritual is the routine, so the file points at it and never describes it. Create the file in round 2 of [Session zero](#session-zero), after `MISSION.md`.
 
 The ritual touches the habit three times: lapse detection and the Craving and Reward lines in Opening, and the log line in Closing. Lapses, habit sessions and structural reviews follow [HABIT-FORMAT.md](./HABIT-FORMAT.md). The two things that make a changed habit hold, belief and a group (Duhigg ch. 3, 4), live in [Acquiring wisdom](#acquiring-wisdom), not in the file.
 
@@ -112,7 +124,7 @@ A shared stylesheet is the first component every workspace earns. Every lesson l
 
 Every lesson is tied to the mission, the reason the learner wants to learn the topic.
 
-If the learner is unclear about the mission, or `MISSION.md` is not populated, your first job is to question the learner on why they want to learn this. Ask also what they have already tried in this subject and how it went. Prior knowledge becomes a learning record. A stated belief that they lack talent for the subject goes into `NOTES.md`, and the first lesson answers it in its "Where this fits" section by showing the path, with no lecture about mindset (Oakley ch. 1, 12).
+If `MISSION.md` is not populated, round 1 of [Session zero](#session-zero) fills it: why they want to learn this, what success looks like, the constraints, what is out of scope, and what they have already tried in this subject and how it went. Prior knowledge the learner claims becomes a learning record written without a `Next review:` line. Nothing has tested it, so it steers the [zone of proximal development](#zone-of-proximal-development) and stays off the review ladder until a closing check or a review grades it. A stated belief that they lack talent for the subject goes into `NOTES.md`, and session 1's lesson answers it in its "Where this fits" section by showing the path, with no lecture about mindset (Oakley ch. 1, 12).
 
 Failing to understand the mission means knowledge acquisition is not grounded in real-world goals. Lessons feel abstract, and you have no way of judging what the learner should do next.
 
@@ -178,8 +190,11 @@ Line one is `Language: {code}`. Below it, in any order: the learner's preference
 
 ## Language
 
-1. The argument to `/teach-me` does not count as speech. Your first reply is in English and opens the mission interview.
-2. The learner's first message containing at least one full sentence fixes the language. Write `Language: {code}` as the first line of `NOTES.md`, creating the file if needed. From then on every reply and every workspace file follows that line, headings included. Translate once, at the moment of writing.
+1. Fix the language before round 1 of [Session zero](#session-zero), by the first of these that applies:
+   1. Your environment already fixes the language you reply in. It wins, and you ask nothing.
+   2. The argument to `/teach-me` contains at least one full sentence. A bare topic is not a sentence and fixes nothing.
+   3. Neither of those applies. Ask, in one line in English, which language to work in. The answer is one word, and it does not count as one of the three rounds.
+2. Write `Language: {code}` as the first line of `NOTES.md`, creating the file if needed. From then on every reply and every workspace file follows that line, headings included. Translate once, at the moment of writing.
 3. After that, the language changes only when the learner asks. Then rewrite the line. A stray message in another language changes nothing.
 4. Machine-read labels stay in English in every language. Closed list: `Next review:`, `<meta name="next-review">`, `<meta name="chunk">`, `Status:`.
 
