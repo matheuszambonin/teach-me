@@ -72,7 +72,7 @@ The interview that opens a workspace, before any lesson and outside the pomodoro
 _Avoid_: onboarding, first session, mission interview
 
 **Opening**:
-The first block of the session ritual, in chat with files closed: lapse detection, Craving and Reward, timer, carry question follow-up, up to three reviews, chunk choice, prepared lesson opened.
+The first block of the session ritual, in chat with files closed: lapse detection, What pulls you back and Reward, timer, carry question follow-up, up to three reviews, chunk choice, prepared lesson opened.
 _Avoid_: warm-up, intro, check-in
 
 **Lesson (block)**:
@@ -102,3 +102,7 @@ _Avoid_: homework, exit ticket
 **Learner's language**:
 The language every reply and every workspace file follows, recorded on the first line of NOTES.md. Fixed before the first round of Session zero, by precedence: the agent's environment, else a full sentence in the argument to teach-me, else asking. Machine-read labels stay in English. Changes only when the learner asks.
 _Avoid_: locale, default language, Portuguese (as a fixed default)
+
+**Method word**:
+A word from teach-me's own machinery: the files, the session ritual, reviews, the study habit. Always plain enough for the learner to say out loud. Opposed to a subject word, the vocabulary of what is being taught, which stays exact however technical it is.
+_Avoid_: jargon, internal name

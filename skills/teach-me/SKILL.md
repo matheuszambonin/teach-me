@@ -6,7 +6,7 @@ disable-model-invocation: true
 argument-hint: "What would you like to learn about?"
 ---
 
-The learner has asked you to teach them something. This is a stateful request. They intend to learn the topic over many sessions, one pomodoro each, and the workspace carries the state between sessions. This file is written for you, the agent. Everything you write into the workspace follows the rules in [Language](#language).
+The learner has asked you to teach them something. This is a stateful request. They intend to learn the topic over many sessions, one pomodoro each, and the workspace carries the state between sessions. This file is written for you, the agent. Everything you write into the workspace follows the rules in [Language](#language) and [Plain words](#plain-words).
 
 ## Teaching workspace
 
@@ -48,8 +48,8 @@ Every session runs the same three blocks inside one 25-minute pomodoro. The lear
 
 ### Opening (chat, files closed, up to 5 minutes)
 
-1. Read `NOTES.md` for the language, then `HABIT.md`. If the gap since the last log line exceeds twice the Cadence interval, or the learner reports missed sessions, follow the lapse rules in `HABIT-FORMAT.md`.
-2. Print Craving and Reward from `HABIT.md`, verbatim.
+1. Read `NOTES.md` for the language, then `HABIT.md`. If the gap since the last log line exceeds twice the interval in How often, or the learner reports missed sessions, follow the lapse rules in `HABIT-FORMAT.md`.
+2. Print What pulls you back and Reward from `HABIT.md`, verbatim.
 3. Ask the learner to start a 25-minute timer.
 4. Ask, in one line, what came of the last lesson's carry question. No grading.
 5. Run up to three reviews, most overdue first, per `REVIEW-FORMAT.md`. More than six due makes this a review session: skip Lesson.
@@ -77,8 +77,10 @@ The first time the learner opens the workspace, there is no lesson and no timer.
 Fix the language first, by the precedence in [Language](#language). Then interview in rounds. A round is a numbered batch of questions, each with the answer you recommend. Ask the whole round, then wait for the learner before opening the next one:
 
 1. The mission, per [The mission](#the-mission). Write `MISSION.md` when the round closes.
-2. The study habit: the seven fields of [HABIT-FORMAT.md](./HABIT-FORMAT.md), with defaults proposed from the mission's Constraints. Write `HABIT.md` when the round closes.
+2. The study habit: the seven fields of [HABIT-FORMAT.md](./HABIT-FORMAT.md), with defaults proposed from what the mission says limits the learner. Write `HABIT.md` when the round closes.
 3. Only what the first two rounds left open.
+
+Never ask for a category. Every question offers a concrete case built from what the learner has already told you, and the learner accepts it, refuses it, or corrects it. "You said you want to play guitar. Leave reading sheet music for later, or does it come in now?" beats "what are you leaving out for now". A learner who has to invent the category answers nothing, and that is how a round stalls.
 
 Three rounds is the limit. Fill whatever is still blank with the default you recommended, say what you filled, and let the structural review of `HABIT.md` correct it. You write each file as its round closes, so a session zero abandoned halfway still leaves the decisions on disk.
 
@@ -107,7 +109,7 @@ A review is a retrieval test of one learning record or one reference, in chat, f
 
 `HABIT.md` records the learner's habit loop: a cue, the session ritual as the routine, a reward, and the craving that links them (Duhigg ch. 1, 2). The ritual is the routine, so the file points at it and never describes it. Create the file in round 2 of [Session zero](#session-zero), after `MISSION.md`.
 
-The ritual touches the habit three times: lapse detection and the Craving and Reward lines in Opening, and the log line in Closing. Lapses, habit sessions and structural reviews follow [HABIT-FORMAT.md](./HABIT-FORMAT.md). The two things that make a changed habit hold, belief and a group (Duhigg ch. 3, 4), live in [Acquiring wisdom](#acquiring-wisdom), not in the file.
+The ritual touches the habit three times: lapse detection and the What pulls you back and Reward lines in Opening, and the log line in Closing. Lapses, habit sessions and structural reviews follow [HABIT-FORMAT.md](./HABIT-FORMAT.md). The two things that make a changed habit hold, belief and a group (Duhigg ch. 3, 4), live in [Acquiring wisdom](#acquiring-wisdom), not in the file.
 
 ## Lessons
 
@@ -127,7 +129,7 @@ A shared stylesheet is the first component every workspace earns. Every lesson l
 
 Every lesson is tied to the mission, the reason the learner wants to learn the topic.
 
-If `MISSION.md` is not populated, round 1 of [Session zero](#session-zero) fills it: why they want to learn this, what success looks like, the constraints, what is out of scope, and what they have already tried in this subject and how it went. Prior knowledge the learner claims becomes a learning record written without a `Next review:` line. Nothing has tested it, so it steers the [zone of proximal development](#zone-of-proximal-development) and stays off the review ladder until a closing check or a review grades it. A stated belief that they lack talent for the subject goes into `NOTES.md`, and session 1's lesson answers it in its "Where this fits" section by showing the path, with no lecture about mindset (Oakley ch. 1, 12).
+If `MISSION.md` is not populated, round 1 of [Session zero](#session-zero) fills it: why they want to learn this, what success looks like, what limits them, what they are leaving out for now, and what they have already tried in this subject and how it went. Prior knowledge the learner claims becomes a learning record written without a `Next review:` line. Nothing has tested it, so it steers the [zone of proximal development](#zone-of-proximal-development) and stays off the review ladder until a closing check or a review grades it. A stated belief that they lack talent for the subject goes into `NOTES.md`, and session 1's lesson answers it in its "Where this fits" section by showing the path, with no lecture about mindset (Oakley ch. 1, 12).
 
 Failing to understand the mission means knowledge acquisition is not grounded in real-world goals. Lessons feel abstract, and you have no way of judging what the learner should do next.
 
@@ -200,6 +202,18 @@ Line one is `Language: {code}`. Below it, in any order: the learner's preference
 2. Write `Language: {code}` as the first line of `NOTES.md`, creating the file if needed. From then on every reply and every workspace file follows that line, headings included. Translate once, at the moment of writing.
 3. After that, the language changes only when the learner asks. Then rewrite the line. A stray message in another language changes nothing.
 4. Machine-read labels stay in English in every language. Closed list: `Next review:`, `<meta name="next-review">`, `<meta name="chunk">`, `Status:`.
+
+## Plain words
+
+The learner has to understand every word you use about the method. The words of the subject are a different matter. Those stay exact, however technical, because learning them is the point.
+
+1. **Method words are plain.** A method word is any word from teach-me's own machinery: the files, the ritual, the reviews, the habit. A subject word is vocabulary of what you are teaching, and it is never simplified.
+2. **The test.** If you cannot picture the learner saying the word out loud to a friend, replace it. Apply it to what you say in chat and to every heading you write in a workspace file.
+3. **Names you never say.** Closed list: zone of proximal development, review ladder, storage strength, fluency, interleaving, desirable difficulty, keystone habit, Einstellung, chunk. They exist for you to think with. If the learner asks why the method works this way, answer with the mechanism in plain words and the chapter, never with the name.
+
+Say "a piece" for a chunk, "the question at the end" for the closing check, and "the 25 minutes" for the pomodoro. The carry question is already plain. The machine-read labels in [Language](#language) are unaffected, because nobody reads them aloud.
+
+A workspace written before a method word changed keeps the old heading until you open the file to write it for some other reason. Rename it then, without asking, because a heading is not the learner's decision. A heading in the wrong language is a different matter: that is a bug against [Language](#language), and you fix it at the next Opening.
 
 ## Source books
 
