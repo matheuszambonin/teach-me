@@ -68,11 +68,11 @@ Reopening HABIT.md with the learner at its `Next review:` date or after a habit 
 _Avoid_: review (reserved for records and references), check-in
 
 **Session zero**:
-The interview that opens a workspace, before any lesson and outside the pomodoro. Runs in rounds of numbered questions, each with the agent's recommended answer, and writes MISSION.md and HABIT.md. The session after it is session 1, an ordinary session ritual with no reviews.
+The interview that opens a workspace, before any lesson and outside the pomodoro. Runs in rounds of numbered questions, each with the agent's recommended answer, writes MISSION.md and HABIT.md, and prepares lesson 1. The session after it is session 1, an ordinary session ritual with no reviews.
 _Avoid_: onboarding, first session, mission interview
 
 **Opening**:
-The first block of the session ritual, in chat with files closed: lapse detection, Craving and Reward, timer, carry question follow-up, up to three reviews, chunk choice, lesson written and opened.
+The first block of the session ritual, in chat with files closed: lapse detection, Craving and Reward, timer, carry question follow-up, up to three reviews, chunk choice, prepared lesson opened.
 _Avoid_: warm-up, intro, check-in
 
 **Lesson (block)**:
@@ -80,8 +80,12 @@ The middle block of the session ritual, in the browser: the lesson file open, on
 _Avoid_: class, module
 
 **Closing**:
-The last block of the session ritual, in chat with the lesson closed: closing check, learning record, review lines, habit log line, carry question, pre-sleep recall reminder.
+The last block of the session ritual, in chat with the lesson closed: closing check, learning record, review lines, habit log line, carry question, pre-sleep recall reminder, then the next lesson prepared with the learner gone.
 _Avoid_: wrap-up, debrief
+
+**Prepared lesson**:
+A lesson written at the Closing of the session before it, with the reference and glossary entries it links, waiting on disk under its final number until a `done · lesson NNNN` log line says it was taught. Opening opens it when the zone of proximal development agrees with its chunk, and overwrites it otherwise.
+_Avoid_: draft, next lesson, pre-written lesson
 
 **Chunk**:
 The single new unit a session teaches, of type Knowledge or Skill, declared in the lesson file. One per lesson, never two.

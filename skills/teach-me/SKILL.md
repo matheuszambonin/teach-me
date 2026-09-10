@@ -53,7 +53,7 @@ Every session runs the same three blocks inside one 25-minute pomodoro. The lear
 3. Ask the learner to start a 25-minute timer.
 4. Ask, in one line, what came of the last lesson's carry question. No grading.
 5. Run up to three reviews, most overdue first, per `REVIEW-FORMAT.md`. More than six due makes this a review session: skip Lesson.
-6. Choose the chunk from the [zone of proximal development](#zone-of-proximal-development). Write the lesson (`LESSON-FORMAT.md`) and the reference and glossary entries it links. Open the lesson.
+6. Choose the chunk from the [zone of proximal development](#zone-of-proximal-development). If the [prepared lesson](#lessons) teaches it, open it. Otherwise write the lesson (`LESSON-FORMAT.md`) and the reference and glossary entries it links now, then open it. The timer keeps running.
 
 ### Lesson (browser, 15 minutes)
 
@@ -66,8 +66,9 @@ The learner works the lesson. Answer questions as they come. If the learner stal
 3. Rewrite the `Next review:` line of every item reviewed in Opening.
 4. Append the log line to `HABIT.md`: `done · lesson NNNN`, `done · lesson NNNN · missed`, `done · review session`, or `done · habit session`.
 5. Say the carry question aloud, and ask the learner to recall the lesson in two sentences before sleep tonight.
+6. Tell the learner, in one line, that the next lesson is being written and they can leave with the terminal open. Then choose the next chunk from the zone of proximal development and write the [prepared lesson](#lessons) with the reference and glossary entries it links. This step runs outside the pomodoro, after the learner has gone.
 
-Review sessions and habit sessions skip the chunk-dependent steps (1, 2, and the carry question). A review session's carry question points at the weakest item reviewed. A habit session has none and reschedules the `Next review:` line of `HABIT.md` instead.
+Review sessions and habit sessions skip the chunk-dependent steps (1, 2, and the carry question). A review session's carry question points at the weakest item reviewed, and it still prepares the next lesson. A habit session has no carry question, reschedules the `Next review:` line of `HABIT.md` instead, and prepares nothing: a prepared lesson already on disk stays.
 
 ### Session zero
 
@@ -83,7 +84,7 @@ Three rounds is the limit. Fill whatever is still blank with the default you rec
 
 The ritual, the pomodoro and the review ladder are yours, not the learner's. Present them as given, and if the learner asks why one of them works that way, answer with the chapter (see [Source books](#source-books)).
 
-Close by reading both files back to the learner and writing the first log line, `done · session zero`. It is the first small win, and lapse detection counts from it (Duhigg ch. 4).
+Close by reading both files back to the learner and writing the first log line, `done · session zero`. It is the first small win, and lapse detection counts from it (Duhigg ch. 4). Then prepare lesson `0001`, the smallest possible one, finding the resources it needs first. There is no timer, so the wait costs nothing here, and session 1 opens with its lesson on disk.
 
 ### In-session procrastination
 
@@ -111,6 +112,8 @@ The ritual touches the habit three times: lapse detection and the Craving and Re
 ## Lessons
 
 A lesson is the Lesson block of the ritual: one chunk, one self-contained HTML file in `./lessons/`, numbered `0001-<dash-case-name>.html`, sized to fifteen minutes. It is beautiful and printable, in the Tufte sense, because the learner returns to it. Open it for the learner with a CLI command. Sections, limits, the `chunk` meta tag and the hidden worked example are in [LESSON-FORMAT.md](./LESSON-FORMAT.md).
+
+A lesson is written at the Closing of the session before it, together with the reference and glossary entries it links, so that it is on disk when its Opening ends and the learner never waits for it. Until it is taught it is the **prepared lesson**: it carries its final number, and it stays prepared while `HABIT.md` has no `done · lesson NNNN` line for that number. At Opening, read its `<head>` and opening question to see which chunk it teaches, and compare with the zone of proximal development. Another chunk chosen: overwrite the file under the same number, since the number belongs to the session, not to the chunk. No prepared lesson on disk: write it in Opening, as step 6 says. A review session or a habit session in between leaves the prepared lesson waiting for the next session with a Lesson block.
 
 ## Assets
 
@@ -182,7 +185,7 @@ Lessons are rarely revisited. Reference documents are. They are the compressed e
 
 Glossaries, in particular, are an essential reference. Once one exists, every lesson adheres to it.
 
-Every reference carries `<meta name="next-review" content="{YYYY-MM-DD} · {interval}">` in its `<head>` and is reviewed as Knowledge, on the ladder in [REVIEW-FORMAT.md](./REVIEW-FORMAT.md). A reference that gains content goes back to `1d`.
+Every reference whose lesson has been taught carries `<meta name="next-review" content="{YYYY-MM-DD} · {interval}">` in its `<head>` and is reviewed as Knowledge, on the ladder in [REVIEW-FORMAT.md](./REVIEW-FORMAT.md). A reference that gains content goes back to `1d`, at the Closing that teaches the lesson linking it: a reference written for a prepared lesson enters the ladder only once its lesson has been taught, per the resets in `REVIEW-FORMAT.md`.
 
 ## `NOTES.md`
 

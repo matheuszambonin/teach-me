@@ -57,6 +57,7 @@ Judge the learner's answer, give feedback either way (Oakley ch. 7), then rewrit
 
 ## Resets
 
-- A reference that gains content goes back to `1d`. Reformatting keeps the line.
+- A reference that gains content goes back to `1d`, written at the Closing that teaches the lesson linking the new content. Reformatting keeps the line.
+- A reference is written with the prepared lesson that links it, one session before it is taught. A new one is born without the tag; an extended one keeps its old line, and a review that comes due before the lesson covers only what has been taught. The Closing that teaches the lesson writes `1d` on both, as it does for the learning record.
 - A superseded record drops its line. Its replacement is born at `1d`.
 - The line is the only record of review state. There is no review log.
