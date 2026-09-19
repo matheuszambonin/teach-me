@@ -152,7 +152,7 @@ A timed run of Questões reais under the banca's own scoring rule, recorded per 
 _Avoid_: quiz, prova, teste, mock
 
 **Simulado curto**:
-A Simulado of 10 to 20 questions that takes the place of the Lesson block inside the session ritual. The only Simulado the Emergência regime runs.
+A Simulado sized to what fits in two thirds of the session at the banca's pace, never fewer than 5 questions. It takes the place of the Lesson block inside the session ritual, and is the only Simulado the Emergência regime runs.
 _Avoid_: mini simulado, bloco de questões
 
 **Simulado completo**:
@@ -164,11 +164,11 @@ An answer the learner marks as a guess during a Simulado. Counts as an error for
 _Avoid_: palpite, acerto de sorte
 
 **Regime**:
-The pace of study a drill-me workspace runs under, chosen at Session zero from days until the exam and minutes per day: Longo, Curto or Emergência. Tightens as the calendar advances; the learner can force it shorter, never longer.
+The pace of study a drill-me workspace runs under: Longo, Curto or Emergência. The skill derives it from the hours left until the exam per item of the Edital ativo, never by asking the learner for a category. Tightens as the calendar advances; the learner can force it shorter, never longer. Only a new exam date can loosen it, and only once the learner accepts.
 _Avoid_: modo, versão, plano de estudos, nível
 
 **Emergência (regime)**:
-The Regime that drops the pomodoro and the three blocks: the Edital ativo is triaged by weight, banca incidence and current hit rate, only the top is studied, every session is a Simulado curto with immediate correction, and the review ladder is cut to 1 and 3 days. Keeps HABIT.md and the three-outcome grade.
+The Regime that drops the lesson, the three blocks and the prepared lesson: the Edital ativo is triaged by weight, banca incidence and current hit rate, only the top is studied, every session is a Simulado curto with immediate correction, and the review ladder is cut to 1 and 3 days. Keeps HABIT.md and the three-outcome grade.
 _Avoid_: modo turbo, reta final, intensivo
 
 **Painel**:
