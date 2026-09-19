@@ -106,3 +106,71 @@ _Avoid_: locale, default language, Portuguese (as a fixed default)
 **Method word**:
 A word from teach-me's own machinery: the files, the session ritual, reviews, the study habit. Always plain enough for the learner to say out loud. Opposed to a subject word, the vocabulary of what is being taught, which stays exact however technical it is.
 _Avoid_: jargon, internal name
+
+**Primary text**:
+A work a guided reading follows from start to end, a book, a thesis or a long article. Its structure orders the sessions. A workspace may hold several, read one after another, never two at once.
+_Avoid_: guided text, source book (reserved for Oakley and Duhigg), reference (reserved for the learner's cheat sheets)
+
+**Secondary source**:
+A high-trust work that comments on, criticizes or situates a passage of the primary text, such as a peer-reviewed article. Listed in RESOURCES.md with the passage it sheds light on.
+_Avoid_: supporting article, bibliography, source book
+
+**Declared stance**:
+The position on the primary text's theses stated openly before the reading, by the agent and by the learner, so the learner can weigh what the agent says and knows in advance where the two will disagree.
+_Avoid_: neutrality, bias (as something to hide), opinion
+
+**Carreira**:
+The family of public-service posts a drill-me workspace prepares for, such as geology and environmental posts at the higher level. One workspace per Carreira; the Edital ativo changes inside it, and records and hit rates stay.
+_Avoid_: concurso (that is one exam), cargo (one post within the Carreira)
+
+**Edital ativo**:
+The one public notice a drill-me workspace studies for at a time. Its items are the curriculum and replace the zone of proximal development. Swapping it rewrites the edital file and remaps items; records stay.
+_Avoid_: edital (bare, when more than one exists in the workspace's history), programa
+
+**Edital provisório**:
+A stand-in Edital ativo built from previous notices of the likely bodies, used while the real notice is unpublished. Replaced whole when the real one comes out.
+_Avoid_: edital estimado, rascunho
+
+**Lacuna**:
+An item of the Edital ativo for which no Questão real was found. Covered only with Questões sintéticas until a real one appears.
+_Avoid_: gap, buraco, item sem questão
+
+**Questão real**:
+A question taken from a past exam, carrying its provenance: banca, year, body, post, number. Without provenance it is never presented as real.
+_Avoid_: questão oficial, questão de prova (ambiguous with a simulado's questions)
+
+**Questão sintética**:
+A question the agent writes from a named Questão real and a pattern of the Ficha da banca, always labelled. Lives in lessons and reviews; enters a Simulado only when the learner turns that on at Session zero, and then is revealed at correction and scored apart.
+_Avoid_: questão gerada, questão inventada, questão fake
+
+**Ficha da banca**:
+The workspace file describing how the banca writes items: types, traps with a real example each, scoring rule, time per question. Built from past exams, revised when a Simulado shows an error pattern it did not predict. Can exist before the edital.
+_Avoid_: perfil da banca, guia da banca
+
+**Simulado**:
+A timed run of Questões reais under the banca's own scoring rule, recorded per item of the Edital ativo. The only measure of readiness the skill trusts. Not a Review (one item, in chat) and not a Closing check.
+_Avoid_: quiz, prova, teste, mock
+
+**Simulado curto**:
+A Simulado of 10 to 20 questions that takes the place of the Lesson block inside the session ritual. The only Simulado the Emergência regime runs.
+_Avoid_: mini simulado, bloco de questões
+
+**Simulado completo**:
+A Simulado the length of the real exam, run outside the session ritual and scheduled in HABIT.md. At least two before the exam in Longo and Curto, none in Emergência. The only source of the "cut-off versus your score" line.
+_Avoid_: simulado real, simulão
+
+**Chute**:
+An answer the learner marks as a guess during a Simulado. Counts as an error for records and reviews, whatever the gabarito says.
+_Avoid_: palpite, acerto de sorte
+
+**Regime**:
+The pace of study a drill-me workspace runs under, chosen at Session zero from days until the exam and minutes per day: Longo, Curto or Emergência. Tightens as the calendar advances; the learner can force it shorter, never longer.
+_Avoid_: modo, versão, plano de estudos, nível
+
+**Emergência (regime)**:
+The Regime that drops the pomodoro and the three blocks: the Edital ativo is triaged by weight, banca incidence and current hit rate, only the top is studied, every session is a Simulado curto with immediate correction, and the review ladder is cut to 1 and 3 days. Keeps HABIT.md and the three-outcome grade.
+_Avoid_: modo turbo, reta final, intensivo
+
+**Painel**:
+The HTML page in the workspace that shows progress: hit rate per edital item over time, simulado scores by date, days until the exam, uncovered items, lacunas, cut-off versus score. Regenerated at every Closing and on demand by a skill argument.
+_Avoid_: dashboard, relatório, estatísticas (as the file's name)
