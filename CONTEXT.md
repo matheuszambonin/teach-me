@@ -131,6 +131,18 @@ _Avoid_: edital (bare, when more than one exists in the workspace's history), pr
 A stand-in Edital ativo built from previous notices of the likely bodies, used while the real notice is unpublished. Replaced whole when the real one comes out.
 _Avoid_: edital estimado, rascunho
 
+**Item do edital**:
+One numbered topic of the Edital ativo's content for the post, kept as the edital numbers it: never split or merged when the edital file is built. The unit of Peso, hit rate, Lacuna and the Regime arithmetic. The learner hears its short name, never its code.
+_Avoid_: assunto, tópico, conteúdo
+
+**Bloco**:
+A section of the Edital ativo with its own question count and point value per question, such as Conhecimentos Específicos with 30 questions worth 2 points. Holds several Itens do edital.
+_Avoid_: disciplina, área, prova (for a section of it)
+
+**Peso**:
+The points an Item do edital is expected to be worth on the exam: its Bloco's points split among the Bloco's items by the banca's past incidence, with one added to each, or split evenly when the Bloco has fewer than 10 past questions. A Peso the learner corrects in chat is marked manual and never recalculated; the rest of the Bloco is rebalanced to keep its total.
+_Avoid_: importância, prioridade (that is the triage), incidência (one input to it)
+
 **Lacuna**:
 An item of the Edital ativo for which no Questão real was found. Covered only with Questões sintéticas until a real one appears.
 _Avoid_: gap, buraco, item sem questão
@@ -140,15 +152,27 @@ A question taken from a past exam, carrying its provenance: banca, year, body, p
 _Avoid_: questão oficial, questão de prova (ambiguous with a simulado's questions)
 
 **Questão sintética**:
-A question the agent writes from a named Questão real and a pattern of the Ficha da banca, always labelled. Lives in lessons and reviews; enters a Simulado only when the learner turns that on at Session zero, and then is revealed at correction and scored apart.
+A question the agent writes, always labelled. Its form (format, command, trap) comes from a named Questão real and a pattern of the Ficha da banca; its content comes from an Item do edital, and its answer cites a passage of that item's Extrato. Without an Extrato it is not written. Kept in the workspace like a Questão real, so it can be counted apart and never asked twice. Lives in lessons and reviews; enters a Simulado only when the learner turns that on at Session zero, and then is revealed at correction and scored apart.
 _Avoid_: questão gerada, questão inventada, questão fake
 
+**Transcrição**:
+The full text of a workspace PDF, converted by tool, word for word, never summarised, written beside the PDF under the same name with a `.md` extension. The agent reads the Transcrição, never the PDF, and reads only the part it needs; the one exception is a scanned PDF, whose Transcrição comes out empty and which is read as pages instead. Not an Extrato (passages of one source about one Item do edital) and not the cargo's slice of the edital, both of which are cut from it.
+_Avoid_: conversão, texto extraído, OCR, cópia em markdown
+
+**Extrato**:
+The passages of primary sources about one Item do edital, quoted word for word with where each came from (book and page, law and article, URL), written by a subagent so the session never reads the whole source. The only source a lesson or a Questão sintética of that item may cite. Made at Closing for the next item, never mid-session.
+_Avoid_: resumo, fichamento, apostila, fonte (bare)
+
 **Ficha da banca**:
-The workspace file describing how the banca writes items: types, traps with a real example each, scoring rule, time per question. Built from past exams, revised when a Simulado shows an error pattern it did not predict. Can exist before the edital.
+The file describing how one banca writes items: format, scoring rule, time per question, the exams it was built from, and its Padrões. One per banca, so a Carreira that changes banca keeps the old one. Built by the agent alone from past exams in the workspace; a Padrão enters only with a Questão real that shows it. With no exam of the banca in the workspace it has no Padrões, and no Questão sintética is written for that banca. Revised when a Simulado shows an error pattern it did not predict. Can exist before the edital. Its scoring rule and time describe the banca in general and give way to the Edital ativo's whenever one exists.
 _Avoid_: perfil da banca, guia da banca
 
+**Padrão**:
+A recurring way a banca builds an item, with or without a trap: swapping one constitutional body for another, a calculation inside a technical stem, three numbered statements to combine. Listed in the Ficha da banca with a Questão real that shows it; every error in a Simulado is tagged with the Padrão it fell into, or none.
+_Avoid_: pegadinha, armadilha, estilo
+
 **Simulado**:
-A timed run of Questões reais under the banca's own scoring rule, recorded per item of the Edital ativo. The only measure of readiness the skill trusts. Not a Review (one item, in chat) and not a Closing check.
+A timed run of Questões reais scored by the Edital ativo's own rule (the Ficha da banca's only while no edital is published), recorded per item of the Edital ativo. The only measure of readiness the skill trusts. When the real questions cannot fill the exam's shape, it shrinks to what exists, unless the learner turned synthetics on; either way its Cobertura is reported beside the score, and the score counts real questions only. Not a Review (one item, in chat) and not a Closing check.
 _Avoid_: quiz, prova, teste, mock
 
 **Simulado curto**:
@@ -156,12 +180,24 @@ A Simulado sized to what fits in two thirds of the session at the banca's pace, 
 _Avoid_: mini simulado, bloco de questões
 
 **Simulado completo**:
-A Simulado the length of the real exam, run outside the session ritual and scheduled in HABIT.md. At least two before the exam in Longo and Curto, none in Emergência. The only source of the "cut-off versus your score" line.
+A Simulado the shape of the real exam, run outside the session ritual and scheduled in HABIT.md. The learner reads it from a Caderno, answers on paper, then types the answers into chat for correction. At least two before the exam in Longo and Curto, none in Emergência. The only Simulado that applies the edital's elimination rules, and the only source of the "cut-off versus your score" line.
 _Avoid_: simulado real, simulão
 
 **Chute**:
-An answer the learner marks as a guess during a Simulado. Counts as an error for records and reviews, whatever the gabarito says.
+An answer the learner marks as a guess. Counts as an error for records, reviews and hit rate, whatever the gabarito says; in a Simulado's score it counts as the banca would, so the score stays comparable to the exam.
 _Avoid_: palpite, acerto de sorte
+
+**Branco**:
+A question the learner leaves unanswered on purpose. Scored as the edital says, never counted in hit rate, never a record.
+_Avoid_: pular, não sei
+
+**Cobertura**:
+The share of the exam's slots a Simulado filled with Questões reais ("38 of 60"). Tells how much the score is worth.
+_Avoid_: completude, porcentagem
+
+**Caderno**:
+The file a Simulado completo is read from: numbered questions, the time and the scoring rule on top, no gabarito, no real or synthetic label. A PDF where the machine can make one without installing anything; otherwise the same page as HTML.
+_Avoid_: prova impressa, folha de questões
 
 **Regime**:
 The pace of study a drill-me workspace runs under: Longo, Curto or Emergência. The skill derives it from the hours left until the exam per item of the Edital ativo, never by asking the learner for a category. Tightens as the calendar advances; the learner can force it shorter, never longer. Only a new exam date can loosen it, and only once the learner accepts.
@@ -171,6 +207,14 @@ _Avoid_: modo, versão, plano de estudos, nível
 The Regime that drops the lesson, the three blocks and the prepared lesson: the Edital ativo is triaged by weight, banca incidence and current hit rate, only the top is studied, every session is a Simulado curto with immediate correction, and the review ladder is cut to 1 and 3 days. Keeps HABIT.md and the three-outcome grade.
 _Avoid_: modo turbo, reta final, intensivo
 
+**Registro de respostas**:
+The workspace's one append-only record of every corrected answer, one entry each, written the moment the answer is marked and never edited. Every number the learner is ever shown is counted from it: the hit rate per Item do edital that drives triage, and everything the Painel draws. The agent writes it and reads it back; the Painel loads it whole.
+_Avoid_: log, histórico, results, planilha
+
 **Painel**:
-The HTML page in the workspace that shows progress: hit rate per edital item over time, simulado scores by date, days until the exam, uncovered items, lacunas, cut-off versus score. Regenerated at every Closing and on demand by a skill argument.
+The HTML page in the workspace that shows progress: hit rate per Item do edital over time, simulado scores by date, days until the exam, uncovered items, Lacunas, cut-off versus score. It computes all of that itself from the Registro de respostas, so it is never regenerated; opening it shows the current state. It draws the agent's own recorded hit rate beside the one it counted, and marks any disagreement, so an arithmetic slip is visible rather than silent. It refuses to draw on malformed data rather than showing a wrong number.
 _Avoid_: dashboard, relatório, estatísticas (as the file's name)
+
+**Balde**:
+One of the two separate quota allowances an Antigravity account carries, one for Gemini models and one for Claude and GPT models, each resetting on its own weekly clock. The free plan and Google AI Plus get weekly baldes only; Google AI Pro adds a five-hour refresh under the same weekly ceiling. The learner reads both with `/quota`. Quota is drawn by the work the agent does, not by the number of messages, so any count of turns is an estimate, never a price.
+_Avoid_: cota (bare), limite, créditos, plano
