@@ -278,7 +278,7 @@ The full humanizer is in `references/humanizer.md`. Read it only when you write 
    3. Neither applies. Ask, in one line in English, which language to work in. The answer is one word and does not count as a round.
 2. Write `Language: {code}` as the first line of `NOTES.md`. From then on every reply and every workspace file follows it, headings included. Translate once, at the moment of writing.
 3. After that, the language changes only when the learner asks.
-4. Machine-read labels stay in English in every language. Closed list: `Next review:`, `Item:`, `Padrao:`, `Variants:`, `Comentado:`, `Asked:`, `Subtopics:`, `Status:`, `Regime:`, `Full mock:`, `Source:`, `Exam:`, `Banca:`, `## Scoring`, `## Gaps`, `open`, `done`, `repeat`, `new`, `studied`, `cut`, `FORA`, `<meta name="next-review">`, `<meta name="chunk">`, the column names of `EDITAL.md`, and the field names of `dados.js`.
+4. Machine-read labels stay in English in every language. Closed list: `Next review:`, `Item:`, `Padrao:`, `Variants:`, `Comentado:`, `Asked:`, `Subtopics:`, `Status:`, `Regime:`, `Full mock:`, `Stock:`, `Source:`, `Exam:`, `Full text:`, `Also likely:`, `Banca:`, `## Scoring`, `## Gaps`, `open`, `done`, `repeat`, `new`, `studied`, `cut`, `FORA`, `<meta name="next-review">`, `<meta name="chunk">`, the column names of `EDITAL.md`, and the field names of `dados.js`.
 
 Every path you print or run goes in quotes, because a workspace name can hold a space (`Concurso - CAER`). To open an HTML file, print the full path and one line on opening it from the file manager. Never try `start "" "<path>"` on Windows: measured on 2026-09-21, it runs, opens nothing and still costs a turn. Elsewhere `xdg-open` or `open` is worth one try, and on failure the path is printed the same way.
 
