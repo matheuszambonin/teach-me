@@ -1,0 +1,5 @@
+interface:
+  display_name: "Drill me"
+  short_description: "Prepare for a public-service exam from your edital and your banca, on real past questions"
+policy:
+  allow_implicit_invocation: false
