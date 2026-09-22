@@ -1,0 +1,823 @@
+<!doctype html>
+<!--
+  painel.html — candidato a assets/painel.html da skill drill-me.
+  Código, não molde: nada aqui é reescrito pelo agente. Os dados vêm do dados.js ao lado,
+  que o agente só apensa. Toda conta acontece aqui, no navegador.
+  Tickets 22, 27 e 28 do mapa drill-me, sobre o contrato do ticket 21.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel do concurso</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7; --surface: #fcfcfb;
+  --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --ring: rgba(11,11,11,0.10);
+  --real: #2a78d6; --sint: #eb6834;
+  --warn-bg: #fdf0ea; --warn-ink: #8f3c12; --warn-line: #eb6834;
+  --stop-bg: #fceaea; --stop-ink: #8c1f1f; --stop-line: #d03b3b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+    --real: #5598e7; --sint: #f4a07e;
+    --warn-bg: #3a1e10; --warn-ink: #f4a07e; --warn-line: #d95926;
+    --stop-bg: #3a1414; --stop-ink: #f0a0a0; --stop-line: #d03b3b;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d; --surface: #1a1a19;
+  --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+  --real: #5598e7; --sint: #f4a07e;
+  --warn-bg: #3a1e10; --warn-ink: #f4a07e; --warn-line: #d95926;
+  --stop-bg: #3a1414; --stop-ink: #f0a0a0; --stop-line: #d03b3b;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink);
+  font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; padding: 24px 16px 40px; }
+main { max-width: 1020px; margin: 0 auto; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 16px; margin: 0 0 4px; }
+.sub { color: var(--ink-2); margin: 0 0 20px; font-size: 14px; }
+.note { color: var(--ink-2); font-size: 13px; margin: 8px 0 0; }
+.card { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.tile { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 12px 14px; }
+.tile .k { color: var(--ink-2); font-size: 13px; }
+.tile .v { font-size: 28px; font-weight: 600; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.tile .d { color: var(--muted); font-size: 12px; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); margin: 4px 0 10px; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+svg { display: block; width: 100%; height: auto; overflow: visible; }
+svg text { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+svg .lbl { fill: var(--ink-2); font-size: 12px; }
+svg .lbl-strong { fill: var(--ink); font-size: 12px; font-weight: 600; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; color: var(--muted); font-weight: 500; padding: 6px 6px; border-bottom: 1px solid var(--axis); vertical-align: bottom; }
+td { padding: 5px 6px; border-bottom: 1px solid var(--grid); vertical-align: middle; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.id { white-space: nowrap; color: var(--ink-2); }
+tr.bloco td { font-weight: 600; color: var(--ink); padding-top: 14px; border-bottom: 1px solid var(--axis); }
+.raw { color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.chip { font-size: 11px; padding: 1px 6px; border-radius: 99px; border: 1px solid var(--axis); color: var(--ink-2); white-space: nowrap; }
+.chip.lac { border-color: var(--sint); color: var(--ink); }
+.chip.sem { border-color: var(--stop-line); color: var(--stop-ink); background: var(--stop-bg); }
+td.brigou { background: var(--warn-bg); color: var(--warn-ink); font-weight: 600;
+  box-shadow: inset 2px 0 0 var(--warn-line); }
+.scroll { overflow-x: auto; }
+/* O bloco do Hit não leva estilo inline: a leitura headless recorta pela linha do <pre>,
+   e um atributo style de três linhas quebraria o recorte. */
+#coluna-hit { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 12px;
+  background: var(--page); border: 1px solid var(--grid); border-radius: 6px;
+  padding: 10px 12px; margin: 8px 0 0; white-space: pre-wrap; }
+.alarme { border: 1px solid var(--stop-line); background: var(--stop-bg); color: var(--stop-ink);
+  border-radius: 10px; padding: 16px 18px; margin-bottom: 16px; }
+.alarme h2 { color: var(--stop-ink); margin-bottom: 6px; }
+.alarme code, .alarme pre { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 12px; }
+.alarme pre { white-space: pre-wrap; word-break: break-all; background: rgba(0,0,0,.06);
+  padding: 8px 10px; border-radius: 6px; margin: 8px 0 0; }
+.aviso { border: 1px solid var(--warn-line); background: var(--warn-bg); color: var(--warn-ink);
+  border-radius: 8px; padding: 10px 12px; margin: 0 0 16px; font-size: 13px; }
+#tip { position: fixed; pointer-events: none; background: var(--surface); color: var(--ink);
+  border: 1px solid var(--ring); box-shadow: 0 4px 16px rgba(0,0,0,.18); border-radius: 8px;
+  padding: 6px 10px; font-size: 12px; max-width: 300px; display: none; z-index: 20; white-space: pre-line; }
+[data-tip] { cursor: default; }
+a { color: var(--real); text-decoration-color: var(--axis); text-underline-offset: 2px; }
+a:hover { text-decoration-color: currentColor; }
+footer { color: var(--muted); font-size: 12px; margin-top: 20px; }
+</style>
+</head>
+<body>
+<main id="app"></main>
+<div id="tip"></div>
+
+<script src="dados.js"></script>
+
+<script>
+"use strict";
+
+// ---------------------------------------------------------------- falhas altas
+// Nunca desenhar número errado calado. Ou a página mostra a conta, ou mostra o motivo.
+const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+function parar(titulo, corpo) {
+  document.getElementById("app").innerHTML =
+    `<div class="alarme"><h2>${esc(titulo)}</h2>${corpo}</div>`;
+  throw new Error(titulo);
+}
+
+if (typeof R === "undefined" || typeof E === "undefined" || typeof S === "undefined" ||
+    typeof M === "undefined" || typeof H === "undefined" || typeof X === "undefined") {
+  parar("O dados.js não carregou.",
+    `<p>Esta página não tem dado nenhum para mostrar. O arquivo <code>dados.js</code> precisa estar
+     na mesma pasta que o <code>painel.html</code> e ser um JavaScript válido.</p>
+     <p>Causa mais comum: erro de sintaxe no <code>dados.js</code>, que derruba o arquivo inteiro.
+     Abra o console do navegador (F12) — a primeira linha vermelha diz o número da linha quebrada.</p>
+     <p>Peça ao agente: <code>/drill-me painel</code>.</p>`);
+}
+
+const CAMPOS_R = ["data", "q", "item", "tipo", "orig", "resp", "chute", "ok", "padrao", "rep"];
+const TIPOS = ["real", "recond", "sint"];
+R.forEach((r, i) => {
+  if (r === null || typeof r !== "object") {
+    parar("Uma linha de resposta não é um objeto.",
+      `<p>Linha <code>R[${i}]</code>, a ${i + 1}ª de ${R.length}.</p><pre>${esc(JSON.stringify(r))}</pre>`);
+  }
+  if ("sint" in r && !("tipo" in r)) {
+    parar("Este dados.js é do contrato velho.",
+      `<p>Linha <code>R[${i}]</code> tem <code>sint</code> e não tem <code>tipo</code>. O campo booleano
+       <code>sint</code> virou <code>tipo</code> com três valores (<code>real</code>, <code>recond</code>,
+       <code>sint</code>) quando a Questão recondicionada entrou.</p>
+       <p>A página não converte sozinha: um <code>sint: false</code> antigo não diz se aquela questão
+       era real ou recondicionada, e chutar mudaria a nota caladamente.</p>`);
+  }
+  const faltando = CAMPOS_R.filter(c => !(c in r));
+  if (faltando.length) {
+    parar("Uma linha de resposta está incompleta, e a página não desenha com ela.",
+      `<p>Linha <code>R[${i}]</code>, a ${i + 1}ª de ${R.length}. Falta: <code>${esc(faltando.join(", "))}</code>.</p>
+       <pre>R.push(${esc(JSON.stringify(r))});</pre>
+       <p>Arrume essa linha no <code>dados.js</code> e recarregue. Nenhum número desta página sai
+       até ela estar completa — contar sem ela daria um total menor sem avisar.</p>`);
+  }
+  if (!TIPOS.includes(r.tipo)) {
+    parar("Uma resposta tem tipo desconhecido.",
+      `<p>Linha <code>R[${i}]</code> diz <code>tipo: ${esc(JSON.stringify(r.tipo))}</code>.
+       Os três valores são <code>real</code>, <code>recond</code> e <code>sint</code>.</p>
+       <pre>R.push(${esc(JSON.stringify(r))});</pre>
+       <p>O tipo decide se a questão entra na nota e no Hit, então a página não adivinha.</p>`);
+  }
+});
+const CAMPOS_E = ["item", "nome", "bloco", "peso", "origem", "real", "ancora", "estado"];
+E.forEach((e, i) => {
+  const faltando = CAMPOS_E.filter(c => !(c in e));
+  if (faltando.length) {
+    parar("Um item do edital está incompleto.",
+      `<p>Linha <code>E[${i}]</code>. Falta: <code>${esc(faltando.join(", "))}</code>.</p>
+       <pre>E.push(${esc(JSON.stringify(e))});</pre>
+       <p><code>origem</code> é de onde saiu o Peso e <code>ancora</code> diz se o item tem Âncora;
+       sem os dois a tabela mostraria um item como se estivesse coberto quando não está.</p>`);
+  }
+});
+if (!E.length) parar("Não há item de edital nenhum.", "<p>O <code>dados.js</code> não tem <code>E.push</code>. A sessão zero é que os escreve.</p>");
+if (!S.length) parar("Não há regra de nota.", "<p>O <code>dados.js</code> não tem <code>S.push</code>: sem ela não há como pontuar simulado.</p>");
+
+// `desde` é a data em que cada regra de nota passou a valer. Sem ela a página não tem como
+// saber que regra pontua que simulado, e pegar a última repontuaria o passado inteiro na
+// troca de edital sem dizer nada.
+S.forEach((c, i) => {
+  if (!c.desde) {
+    parar("Este dados.js é de antes da troca de edital.",
+      `<p>A regra de nota <code>S[${i}]</code> não tem o campo <code>desde</code>, a data em que
+       ela passou a valer.</p>
+       <p>Sem ele, um simulado feito sob o edital antigo seria pontuado com a regra do edital
+       novo, e a nota que ele já tinha mudaria de valor sem ninguém ter tocado nela.</p>
+       <p>No primeiro edital, <code>desde</code> é o mesmo dia que <code>inicio</code>.</p>
+       <pre>S.push(${esc(JSON.stringify(c))});</pre>`);
+  }
+});
+
+// O remapeamento da troca de edital. `para: null` aposenta o item sem par.
+X.forEach((x, i) => {
+  if (x === null || typeof x !== "object" || !("de" in x) || !("para" in x)) {
+    parar("Uma linha de remapeamento está incompleta.",
+      `<p>Linha <code>X[${i}]</code>. Ela precisa dos dois campos: <code>de</code>, o item do
+       edital velho, e <code>para</code>, o do edital novo — ou <code>null</code>, que aposenta
+       o item sem par.</p><pre>${esc(JSON.stringify(x))}</pre>`);
+  }
+});
+
+// ------------------------------------------------------------------ o que vale
+// E, S, H e X: o último push de cada chave vence.
+//
+// As regras de nota vivem em ordem de `desde`, e cada simulado é pontuado pela que valia no
+// dia dele. `cfg` é a de hoje, e manda no cabeçalho, nos tiles e na tabela por item.
+const regras = [...S].sort((a, b) => String(a.desde).localeCompare(String(b.desde)));
+const cfg = regras[regras.length - 1];
+function regraEm(data) {
+  let vale = null;
+  for (const r of regras) if (String(r.desde) <= data) vale = r;
+  return vale;
+}
+
+// O remapeamento. Uma cadeia (duas trocas seguidas) é seguida até o fim; um ciclo para a
+// página, porque em silêncio ele giraria para sempre.
+const paraDe = new Map();
+for (const x of X) paraDe.set(x.de, x.para);
+function remapear(item) {
+  let atual = item, saltos = 0;
+  while (paraDe.has(atual)) {
+    const proximo = paraDe.get(atual);
+    if (proximo === null) return null;
+    if (++saltos > paraDe.size + 1) {
+      parar("O remapeamento anda em círculo.",
+        `<p>Seguindo as linhas <code>X</code> a partir de <code>${esc(item)}</code>, a página
+         voltou ao mesmo item depois de ${saltos} saltos e nunca chega a um item do edital de hoje.</p>
+         <p>Cada troca de edital aponta o item velho para um item do edital novo. Se um <code>X</code>
+         aponta para trás, some com essa linha do <code>dados.js</code>.</p>`);
+    }
+    atual = proximo;
+  }
+  return atual;
+}
+
+// Todo E fica como registro — o simulado antigo precisa do Bloco do item que foi aposentado
+// para manter a nota que tinha. Só quem nunca apareceu como `de` está no edital de hoje.
+const TODOS = new Map();
+for (const e of E) TODOS.set(e.item, e);
+for (const x of X) {
+  if (x.para !== null && !TODOS.has(x.para)) {
+    parar("Um remapeamento aponta para um item que não existe.",
+      `<p><code>X.push({de: ${esc(JSON.stringify(x.de))}, para: ${esc(JSON.stringify(x.para))}})</code>,
+       e nenhum <code>E.push</code> escreveu o item <code>${esc(x.para)}</code>.</p>
+       <p>As respostas de <code>${esc(x.de)}</code> não teriam onde ser contadas. Escreva o item
+       novo antes do remapeamento, ou aponte para <code>null</code>, que o aposenta.</p>`);
+  }
+}
+const itens = [...TODOS.values()].filter(e => !paraDe.has(e.item)).map(e => ({ ...e }));
+if (!itens.length) {
+  parar("Todo item do edital foi aposentado.",
+    `<p>As ${X.length} linhas <code>X</code> aposentam os ${TODOS.size} itens que o
+     <code>dados.js</code> conhece, e nenhum item novo ficou de pé.</p>
+     <p>A troca de edital escreve os itens novos <b>antes</b> do remapeamento.</p>`);
+}
+
+const hitAgente = new Map();
+for (const h of H) hitAgente.set(h.item, h);
+
+const ITEM = new Map(itens.map(i => [i.item, i]));
+const BLOCOS = [];
+for (const it of itens) if (!BLOCOS.includes(it.bloco)) BLOCOS.push(it.bloco);
+
+// Um item ativo com Bloco que a regra de nota de hoje não conhece é item de edital velho que
+// ninguém remapeou: ele sairia na tabela como se fosse do edital novo e contaria nos tiles.
+{
+  const fora = itens.filter(i => !(i.bloco in (cfg.questoes_por_bloco || {})));
+  if (fora.length) {
+    parar("Há item de edital velho na tabela do edital de hoje.",
+      `<p>${fora.length} ${fora.length === 1 ? "item está" : "itens estão"} num Bloco que a regra de
+       nota em vigor não tem: ${fora.slice(0, 8).map(i => `<code>${esc(i.item)}</code> (${esc(i.bloco)})`).join(", ")}${fora.length > 8 ? ", …" : ""}.</p>
+       <p>Na troca de edital, todo item do edital velho ganha uma linha <code>X</code> — apontando
+       para o item novo que ficou com o assunto, ou para <code>null</code>, que o aposenta. Sem ela
+       o item velho fica na tabela para sempre e entra na conta de Lacunas e de nunca estudados.</p>
+       <p>Os Blocos de hoje são: ${Object.keys(cfg.questoes_por_bloco || {}).map(b => `<code>${esc(b)}</code>`).join(", ") || "nenhum"}.</p>`);
+  }
+}
+
+// O valor de uma questão sai do Bloco do item <b>como ele era</b> e da regra da época.
+// Sem o Bloco não há valor, e chutar 1 ponto calado é exatamente o que esta página não faz.
+function pontosDe(item, regra, onde) {
+  const it = TODOS.get(item);
+  if (!it) {
+    parar("Uma resposta aponta para um item que o edital nunca teve.",
+      `<p>O simulado <code>${esc(onde)}</code> tem resposta no item <code>${esc(item)}</code>,
+       e nenhum <code>E.push</code> escreveu esse item.</p>
+       <p>Ou o código está com erro de digitação na linha <code>R</code>, ou o
+       <code>E.push</code> dele nunca foi escrito.</p>`);
+  }
+  const p = regra.pontos_por_bloco ? regra.pontos_por_bloco[it.bloco] : undefined;
+  if (typeof p !== "number") {
+    parar("Um simulado tem questão de um Bloco que a regra de nota da época não conhece.",
+      `<p>O simulado <code>${esc(onde)}</code> foi feito sob a regra de
+       <code>${esc(regra.desde)}</code> (${esc(regra.fonte || "")}), e o item
+       <code>${esc(item)}</code> está no Bloco <code>${esc(it.bloco)}</code>, que essa regra não tem.</p>
+       <p>Causa mais provável: o edital novo reaproveitou um código de item do edital velho.
+       O código é a chave do <code>E</code>, então o item novo apagou o velho, e o simulado
+       antigo perdeu o Bloco de que precisava para manter a nota. Os códigos de um edital novo
+       nunca repetem código já usado neste workspace.</p>
+       <p>Os Blocos dessa regra são: ${Object.keys(regra.pontos_por_bloco || {}).map(b => `<code>${esc(b)}</code>`).join(", ") || "nenhum"}.</p>`);
+  }
+  return p;
+}
+
+// ------------------------------------------------------------------ utilidades
+const DIA = 864e5;
+const dt = s => new Date(s + "T00:00:00");
+// "Hoje" é o relógio do navegador, não um campo do dados.js: um campo gravado na sessão zero
+// congelaria a contagem regressiva e ela erraria mais a cada dia, caladamente.
+// ?hoje=AAAA-MM-DD força uma data, e é só para conferir a página com dado de teste.
+const forcado = new URLSearchParams(location.search).get("hoje") || cfg.hoje;
+const hoje = forcado ? dt(forcado) : new Date(new Date().toDateString());
+const prova = dt(cfg.prova), inicio = dt(cfg.inicio);
+const hojeISO = hoje.getFullYear() + "-" + String(hoje.getMonth() + 1).padStart(2, "0") + "-" + String(hoje.getDate()).padStart(2, "0");
+const diasAteProva = Math.round((prova - hoje) / DIA);
+const fmtD = d => { const [y, m, dd] = d.split("-"); return `${dd}/${m}`; };
+const pct = (c, n) => n ? Math.round(100 * c / n) : null;
+// certas sobre respondidas ao lado de toda porcentagem: a conta se refaz na mão
+const frac = (c, n) => n ? `${pct(c, n)}% <span class="raw">${c}/${n}</span>` : `<span class="raw">–</span>`;
+const um = (x, d = 1) => Number(x).toFixed(d);
+// A Cobertura deixou de ser só um número de vagas: diz de que é feita.
+const NOME_TIPO = { real: "reais", recond: "recondicionadas", sint: "sintéticas" };
+const composicao = s => ["real", "recond", "sint"]
+  .filter(t => s.comp[t]).map(t => `${s.comp[t]} ${NOME_TIPO[t]}`).join(", ");
+// A Cobertura, ao lado da Composição: vagas preenchidas, vagas da prova, e quanto do caderno
+// ela ainda não tinha visto. "60 de 60, 34 inéditas".
+const cobertura = s => `${s.cobertura[0]} de ${s.cobertura[1]} vagas, ${s.ineditas} inéditas`;
+// Meio caderno não é completo fraco: o teto da sintética fechou antes de as vagas acabarem,
+// e o tempo encolheu na mesma proporção. A tabela diz isso na coluna do tipo, com os dois
+// tempos no tooltip, senão a linha se lê como um completo que ela fez por metade.
+const minutos = (s, n) => Math.round(n * (s.regra.minutos_por_questao || 0));
+const tipoCelula = s => s.meioCaderno
+  ? `${s.tipo} <span class="chip" data-tip="${esc(
+      `O acervo não tinha com que encher as ${s.cobertura[1]} vagas sem passar do teto da sintética, ` +
+      `então o caderno saiu com ${s.cobertura[0]}.\n` +
+      `O tempo encolhe junto: ${minutos(s, s.cobertura[0])} minutos, contra ` +
+      `${minutos(s, s.cobertura[1])} da prova inteira.`)}">meio caderno</span>`
+  : s.tipo;
+
+// --------------------------------------------------- acerto por item, das linhas R
+// Vale o que tem gabarito oficial atrás: Questão real e Questão recondicionada contam juntas,
+// no mesmo balde, porque as duas medem o que ela sabe. Sintética anda numa contagem à parte
+// e nunca entra na medida de prontidão. Sem repeat e sem Branco; Chute que acerta conta como erro.
+const CONTA = r => r.tipo === "real" || r.tipo === "recond";
+function zero() { return { certas: 0, resp: 0, brancos: 0, chuteCertos: 0, reps: 0, deReal: 0, deRecond: 0 }; }
+const real = new Map(), sint = new Map();
+for (const it of itens) { real.set(it.item, zero()); sint.set(it.item, zero()); }
+
+// A resposta é contada no item para onde o remapeamento a mandou, e é assim que duas
+// contagens se somam quando dois itens viram um: as duas caem na mesma chave.
+// O que não tem para onde ir não evapora — vai para a conta de fora do edital.
+const forasteiras = new Map();   // item velho → { total, comp }
+let foraTotal = 0;
+for (const r of R) {
+  const destino = remapear(r.item);
+  if (destino === null || !ITEM.has(destino)) {
+    if (!forasteiras.has(r.item)) forasteiras.set(r.item, { n: 0, nome: (TODOS.get(r.item) || {}).nome || null });
+    forasteiras.get(r.item).n++;
+    foraTotal++;
+    continue;
+  }
+  const alvo = CONTA(r) ? real : sint;
+  const a = alvo.get(destino);
+  if (r.resp === "-") { a.brancos++; continue; }
+  if (r.rep) { a.reps++; continue; }
+  a.resp++;
+  if (r.tipo === "real") a.deReal++;
+  if (r.tipo === "recond") a.deRecond++;
+  if (r.ok && r.chute) a.chuteCertos++;
+  if (r.ok && !r.chute) a.certas++;
+}
+
+// ------------------------------------------------------ as cinco semanas do gráfico
+const SEMANAS = 5;
+function segunda(d) { const x = new Date(d); const w = (x.getDay() + 6) % 7; x.setDate(x.getDate() - w); x.setHours(0, 0, 0, 0); return x; }
+const semanas = [];
+for (let k = SEMANAS - 1; k >= 0; k--) semanas.push(new Date(segunda(hoje).getTime() - k * 7 * DIA));
+const iSemana = data => {
+  const s = segunda(dt(data)).getTime();
+  return semanas.findIndex(w => w.getTime() === s);
+};
+const serie = new Map();
+for (const it of itens) serie.set(it.item, { r: semanas.map(() => [0, 0]), s: semanas.map(() => [0, 0]) });
+for (const r of R) {
+  const i = iSemana(r.data);
+  const destino = remapear(r.item);
+  if (i < 0 || destino === null || !serie.has(destino)) continue;
+  if (r.resp === "-" || r.rep) continue;
+  const par = serie.get(destino)[CONTA(r) ? "r" : "s"][i];
+  par[1]++; if (r.ok && !r.chute) par[0]++;
+}
+
+// ------------------------------------------------ nota de cada simulado, na página
+// Soma os pontos das certas pela regra de nota do edital. Chute que acerta conta aqui,
+// porque a prova não sabe que foi chute. Errada desconta o que o edital mandar; branco vale o que ele disser.
+const desconto = Number(cfg.desconto_errada || 0);
+const valorBranco = Number(cfg.valor_branco || 0);
+
+const simulados = M.map(m => {
+  // A regra é a que valia no dia do simulado, e o item é o item como ele era. Depois de uma
+  // troca de edital, pegar a regra de hoje repontuaria a curva inteira, calado.
+  const regra = regraEm(m.data);
+  if (!regra) {
+    parar("Um simulado é anterior a toda regra de nota.",
+      `<p>O simulado <code>${esc(m.num)}</code> é de <code>${esc(m.data)}</code>, e a regra de nota
+       mais antiga do <code>dados.js</code> só passa a valer em <code>${esc(regras[0].desde)}</code>.</p>
+       <p>A primeira regra tem <code>desde</code> igual ao começo da Carreira, então ou a data do
+       simulado está errada, ou o <code>desde</code> está.</p>`);
+  }
+  const desconto = Number(regra.desconto_errada || 0);
+  const valorBranco = Number(regra.valor_branco || 0);
+  const linhas = R.filter(r => r.orig === m.num);
+  // A nota é uma só e soma real e recondicionada, que têm gabarito oficial atrás.
+  // A sintética ocupa vaga no caderno e aparece na composição, mas não entra na conta:
+  // somá-la faria a nota medir a escrita do agente.
+  const valem = linhas.filter(CONTA);
+  const comp = { real: 0, recond: 0, sint: 0 };
+  for (const r of linhas) comp[r.tipo]++;
+  let obtidos = 0, possiveis = 0, certas = 0, chuteCertos = 0, brancos = 0, erradas = 0, reps = 0;
+  const porBloco = new Map();
+  for (const r of valem) {
+    const it = TODOS.get(r.item);
+    const bloco = it ? it.bloco : "(item fora do edital)";
+    const p = pontosDe(r.item, regra, m.num);
+    if (!porBloco.has(bloco)) porBloco.set(bloco, { obtidos: 0, possiveis: 0, n: 0 });
+    const b = porBloco.get(bloco);
+    possiveis += p; b.possiveis += p; b.n++;
+    if (r.rep) reps++;
+    if (r.resp === "-") { brancos++; obtidos += valorBranco; b.obtidos += valorBranco; continue; }
+    if (r.ok) { obtidos += p; b.obtidos += p; certas++; if (r.chute) chuteCertos++; }
+    else { obtidos -= desconto * p; b.obtidos -= desconto * p; erradas++; }
+  }
+  // eliminação: só o completo tem tamanho para aplicar, e vale a regra da época
+  const elim = [];
+  if (m.tipo === "completo") {
+    for (const e of (regra.eliminacao || [])) {
+      if (e.tipo === "zero_em_bloco") {
+        for (const [bloco, b] of porBloco) if (b.n > 0 && b.obtidos <= 0)
+          elim.push(`Pela regra ${e.regra} você seria eliminada: zero em ${bloco}.`);
+      } else if (e.tipo === "nota_minima_no_bloco") {
+        const b = porBloco.get(e.bloco);
+        if (b && b.n > 0 && b.obtidos < e.minimo)
+          elim.push(`Pela regra ${e.regra} você seria eliminada: ${um(b.obtidos, 1)} em ${e.bloco}, abaixo do mínimo de ${um(e.minimo, 1)}.`);
+      } else if (e.tipo === "nota_minima_total") {
+        if (obtidos < e.minimo)
+          elim.push(`Pela regra ${e.regra} você seria eliminada: ${um(obtidos, 1)} no conjunto, abaixo do mínimo de ${um(e.minimo, 1)}.`);
+      } else {
+        // Pular calado uma regra desconhecida é dizer "você passou" sem ter olhado.
+        parar("A regra de nota tem uma eliminação que esta página não sabe aplicar.",
+          `<p>A regra de <code>${esc(regra.desde)}</code> traz
+           <code>tipo: ${esc(JSON.stringify(e.tipo))}</code>, e esta página só aplica
+           <code>zero_em_bloco</code>, <code>nota_minima_no_bloco</code> e <code>nota_minima_total</code>.</p>
+           <pre>${esc(JSON.stringify(e))}</pre>
+           <p>Enquanto a página não souber aplicá-la, ela não pode dizer se você passaria.</p>`);
+      }
+    }
+  }
+  const blocosDaEpoca = Object.keys(regra.questoes_por_bloco || {});
+  const completo = m.tipo === "completo";
+  const semMedida = completo
+    ? blocosDaEpoca.filter(b => !porBloco.has(b) || porBloco.get(b).n === 0)
+    : [];
+
+  // Os dois pisos do Simulado completo, em pontos de questão que conta e é inédita.
+  // A unidade é ponto e não vaga porque em vagas o piso mente: 30 Gerais reais mais 10
+  // Específicos dá 40 de 60 e passa folgado, com a nota carregada por Língua Portuguesa
+  // enquanto o bloco que vale dois terços dos pontos é quase todo sintética. E só conta o
+  // que conta **e** é inédito, o que fecha numa regra só a defesa contra os dois jeitos de
+  // inflar o caderno: encher de sintética e encher de repetida.
+  // Os dois saem da própria prova — metade e um terço dos pontos dela —, sem campo novo.
+  const qpb = regra.questoes_por_bloco || {}, ppb = regra.pontos_por_bloco || {};
+  const pontosDaProva = Object.keys(qpb).reduce((t, b) => t + qpb[b] * (ppb[b] || 0), 0);
+  if (completo && !(pontosDaProva > 0)) {
+    // Sem o tamanho da prova os dois pisos valem zero, e zero é um piso que todo caderno
+    // passa. A página desenharia a comparação com a nota de corte de um caderno de dez
+    // questões sem uma palavra, que é exatamente o que os pisos existem para impedir.
+    parar("A regra de nota não diz de quantas questões é a prova.",
+      `<p>O simulado <code>${esc(m.num)}</code> é um completo, e a regra de
+       <code>${esc(regra.desde)}</code> (${esc(regra.fonte || "")}) não traz
+       <code>questoes_por_bloco</code> com os pontos de cada Bloco.</p>
+       <p>Os dois pisos do completo são metade e um terço dos pontos da prova. Sem o tamanho da
+       prova eles valem zero, todo caderno passa, e a página compararia com a nota de corte um
+       caderno que não mede nada.</p>
+       <pre>${esc(JSON.stringify({ questoes_por_bloco: regra.questoes_por_bloco,
+                                   pontos_por_bloco: regra.pontos_por_bloco }))}</pre>`);
+  }
+  const pisoCorte = pontosDaProva / 2, pisoAgenda = pontosDaProva / 3;
+  const ineditos = valem.filter(r => !r.rep)
+    .reduce((t, r) => t + pontosDe(r.item, regra, m.num), 0);
+  // A Cobertura passa a dizer quanto do caderno ela ainda não viu: a contrapartida de o
+  // completo ter passado a repetir real e recondicionada depois de 30 dias.
+  const ineditas = linhas.filter(r => !r.rep).length;
+  const abaixoDoCorte = completo && ineditos < pisoCorte;
+  const abaixoDaAgenda = completo && ineditos < pisoAgenda;
+  // O caderno que encolheu porque o teto da sintética fechou antes de as vagas acabarem.
+  // Meio caderno é meio caderno, e não um completo fraco: o tempo encolhe na mesma proporção.
+  const meioCaderno = completo && m.cobertura[0] < m.cobertura[1];
+  return { ...m, regra, linhas: linhas.length, valem: valem.length, comp, obtidos, possiveis, certas,
+           chuteCertos, brancos, erradas, reps, porBloco, elim, semMedida,
+           completo, ineditos, ineditas, pontosDaProva, pisoCorte, pisoAgenda,
+           abaixoDoCorte, abaixoDaAgenda, meioCaderno,
+           frouxo: !completo && comp.real * 2 < linhas.length,
+           alerta: completo ? abaixoDoCorte : comp.real * 2 < linhas.length,
+           pct: possiveis ? Math.round(100 * obtidos / possiveis) : null };
+}).sort((a, b) => a.data.localeCompare(b.data));
+
+const ultimo = simulados[simulados.length - 1];
+const ultimoCompleto = simulados.filter(s => s.tipo === "completo").pop();
+
+// ---------------------------------------------------------------- peças da página
+function tile(k, v, d) { return `<div class="tile"><div class="k">${k}</div><div class="v">${v}</div><div class="d">${d || ""}</div></div>`; }
+
+function grafico(h = 244, W = 960) {
+  const L = 44, Rm = 76, T = 16, B = 44;
+  const t0 = inicio.getTime(), t1 = prova.getTime();
+  const x = d => L + (dt(d).getTime() - t0) / (t1 - t0) * (W - L - Rm);
+  // Com desconto de errada a nota pode ficar negativa; o ponto encosta no chão e o número
+  // verdadeiro continua no rótulo, no tooltip e na tabela.
+  const y = p => T + (1 - Math.max(0, Math.min(100, p)) / 100) * (h - T - B);
+  let g = "";
+  for (const p of [0, 25, 50, 75, 100])
+    g += `<line x1="${L}" x2="${W - Rm}" y1="${y(p)}" y2="${y(p)}" stroke="var(--grid)"/>` +
+         `<text x="${L - 6}" y="${y(p) + 4}" text-anchor="end">${p}%</text>`;
+  for (let t = inicio.getTime(); t <= t1; t += 14 * DIA) {
+    const d = new Date(t).toISOString().slice(0, 10);
+    g += `<text x="${x(d)}" y="${h - B + 14}" text-anchor="middle">${fmtD(d)}</text>`;
+  }
+  g += `<line x1="${x(hojeISO)}" x2="${x(hojeISO)}" y1="${T}" y2="${h - B}" stroke="var(--axis)"/>` +
+       `<text x="${x(hojeISO) + 4}" y="${T + 10}" class="lbl">hoje</text>`;
+  g += `<line x1="${x(cfg.prova)}" x2="${x(cfg.prova)}" y1="${T}" y2="${h - B}" stroke="var(--ink-2)"/>` +
+       `<text x="${x(cfg.prova) + 4}" y="${T + 10}" class="lbl-strong">prova ${fmtD(cfg.prova)}</text>`;
+  // O risco da troca de edital. Cada nota está calculada pela regra da sua época, mas 78% na
+  // CAER e 78% no Cebraspe são duas provas diferentes, e a curva não diz isso sozinha.
+  for (const r of regras.slice(1)) {
+    if (dt(r.desde) < inicio || dt(r.desde) > prova) continue;
+    g += `<line x1="${x(r.desde)}" x2="${x(r.desde)}" y1="${T}" y2="${h - B}" stroke="var(--stop-line)" stroke-width="1" stroke-dasharray="5 3"/>` +
+         `<text x="${x(r.desde) - 4}" y="${T + 10}" text-anchor="end" class="lbl" style="fill:var(--stop-line)" data-tip="${esc(
+           `Troca de edital em ${fmtD(r.desde)}\n${r.fonte || ""}\nCada nota está calculada pela regra da sua época; as duas metades da curva são de provas diferentes.`)}">troca de edital</text>`;
+  }
+  for (const d of (cfg.completos_marcados || []).filter(d => dt(d) > hoje))
+    g += `<line x1="${x(d)}" x2="${x(d)}" y1="${T}" y2="${h - B}" stroke="var(--real)" stroke-width="1" stroke-dasharray="3 4" opacity=".55"/>` +
+         `<rect x="${x(d) - 5}" y="${h - B + 3}" width="10" height="10" fill="none" stroke="var(--real)" stroke-width="2" rx="2" data-tip="Simulado completo marcado para ${fmtD(d)}\nAinda não feito: não tem nota."/>`;
+
+  const pts = simulados.filter(s => s.pct !== null).map(s => [x(s.data), y(s.pct), s]);
+  if (pts.length > 1)
+    g += `<polyline points="${pts.map(p => p[0] + "," + p[1]).join(" ")}" fill="none" stroke="var(--real)" stroke-width="2"/>`;
+  const perto = (px, i) => pts.some((p, j) => j !== i && Math.abs(p[0] - px) < 62);
+  pts.forEach(([px, py, s], idx) => {
+    const cor = s.alerta ? "var(--warn-line)" : "var(--real)";
+    const tip = `${s.num} · ${s.tipo}${s.meioCaderno ? " (meio caderno)" : ""} · ${fmtD(s.data)}\n` +
+      `${um(s.obtidos, 1)} de ${um(s.possiveis, 1)} pontos (${s.pct}%)\n` +
+      `${s.certas} certas em ${s.valem} questões que contam` +
+      (s.comp.sint ? ` (${s.linhas} no caderno, ${s.comp.sint} sintéticas fora da nota)` : "") + `\n` +
+      `Cobertura: ${cobertura(s)} — ${composicao(s)}\n` +
+      `Acertou no chute: ${s.chuteCertos} · brancos: ${s.brancos}` +
+      (s.reps ? `\nRepetidas: ${s.reps} (contam na nota, não no Hit)` : "") +
+      (s.completo ? `\nInéditas que contam: ${um(s.ineditos, 1)} de ${um(s.pontosDaProva, 1)} pontos` +
+        ` (pisos: ${um(s.pisoCorte, 1)} para a nota de corte, ${um(s.pisoAgenda, 1)} para marcar)` : "") +
+      (s.abaixoDaAgenda ? `\nAbaixo do piso de agendamento: este caderno não deveria ter sido marcado.`
+        : s.abaixoDoCorte ? `\nAbaixo do piso da nota de corte: sai nota, não sai comparação com a nota de corte.` : "") +
+      (s.frouxo ? `\nMenos da metade do caderno é real: esta nota saiu de ${s.valem} questões, não de ${s.linhas}.` : "") +
+      (s.elim.length ? "\n" + s.elim.join("\n") : "");
+    g += s.tipo === "completo"
+      ? `<rect x="${px - 6}" y="${py - 6}" width="12" height="12" rx="2" fill="${cor}" stroke="var(--surface)" stroke-width="2" data-tip="${esc(tip)}"/>` +
+        (perto(px, idx) ? "" : `<text x="${px}" y="${py - 13}" text-anchor="middle" class="lbl-strong">completo ${s.pct}%</text>`)
+      : `<circle cx="${px}" cy="${py}" r="5" fill="${cor}" stroke="var(--surface)" stroke-width="2" data-tip="${esc(tip)}"/>`;
+  });
+  if (pts.length)
+    g += `<text x="${pts[pts.length - 1][0] + 9}" y="${pts[pts.length - 1][1] + 4}" class="lbl-strong">${pts[pts.length - 1][2].pct}%</text>`;
+  return `<svg viewBox="0 0 ${W} ${h}" role="img" aria-label="Notas dos simulados em questões reais">${g}</svg>`;
+}
+
+function cum(pares) { let c = 0, n = 0; return pares.map(([a, b]) => { c += a; n += b; return n ? c / n : null; }); }
+
+function curva(item, w = 124, h = 26) {
+  const s = serie.get(item);
+  const x = i => 4 + i * (w - 8) / (SEMANAS - 1), y = p => 3 + (1 - p) * (h - 6);
+  let g = `<line x1="0" x2="${w}" y1="${y(.5)}" y2="${y(.5)}" stroke="var(--grid)"/>`;
+  let vazio = true;
+  for (const [pares, cor] of [[s.r, "var(--real)"], [s.s, "var(--sint)"]]) {
+    const c = cum(pares).map((p, i) => p == null ? null : [x(i), y(p)]).filter(Boolean);
+    if (!c.length) continue;
+    vazio = false;
+    if (c.length > 1) g += `<polyline points="${c.map(p => p.join(",")).join(" ")}" fill="none" stroke="${cor}" stroke-width="2"/>`;
+    const e = c[c.length - 1];
+    g += `<circle cx="${e[0]}" cy="${e[1]}" r="3" fill="${cor}"/>`;
+  }
+  if (vazio) return `<span class="raw">–</span>`;
+  return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="width:${w}px">${g}</svg>`;
+}
+
+// ------------------------------------------------------------------- a página
+function render() {
+  const lacunas = itens.filter(i => !i.real);
+  // O pior caso do acervo: item que não tem Questão real nem Âncora de onde tirar uma
+  // recondicionada, e cuja cobertura inteira é sintética escrita do Extrato.
+  const semAncora = lacunas.filter(i => i.ancora === "nenhuma");
+  const novos = itens.filter(i => i.estado === "new");
+  const brigas = [];
+
+  let linhas = "";
+  for (const bloco of BLOCOS) {
+    const doBloco = itens.filter(i => i.bloco === bloco);
+    const nq = cfg.questoes_por_bloco ? cfg.questoes_por_bloco[bloco] : null;
+    const pp = cfg.pontos_por_bloco ? cfg.pontos_por_bloco[bloco] : null;
+    linhas += `<tr class="bloco"><td colspan="8">${esc(bloco)}` +
+      (nq ? ` · ${nq} questões × ${um(pp, 1)} ${pp > 1 ? "pontos" : "ponto"}` : "") + `</td></tr>`;
+    for (const it of doBloco) {
+      const r = real.get(it.item), s = sint.get(it.item);
+      const ag = hitAgente.get(it.item);
+      // o conferente: o Hit que o agente gravou contra o que a página contou das linhas cruas
+      const brigou = ag && (ag.certas !== r.certas || ag.total !== r.resp);
+      if (brigou) brigas.push({ item: it.item, ag, pag: r });
+      const celulaAgente = ag
+        ? `<td class="num${brigou ? " brigou" : ""}" ${brigou ? `data-tip="${esc(
+            `O agente gravou ${ag.certas}/${ag.total} no EDITAL.md.\nA página contou ${r.certas}/${r.resp} das linhas R.\nReal e recondicionada contam juntas nos dois lados.\nUm dos dois errou a conta.`)}"` : ""}>` +
+          `${pct(ag.certas, ag.total)}% <span class="raw">${ag.certas}/${ag.total}</span></td>`
+        : `<td class="num"><span class="raw">–</span></td>`;
+      // Lacuna coberta só por sintética sem Âncora: é onde a skill mais chuta, e ela merece saber.
+      const chipAncora = (!it.real && it.ancora === "nenhuma")
+        ? ` <span class="chip sem" data-tip="${esc(
+            "Nenhuma Questão real e nenhuma Âncora: tudo que ela responde aqui foi escrito pelo agente a partir do Extrato.\nÉ a cobertura mais fraca que existe, e não entra na nota de simulado nenhum.")}">sem Âncora</span>`
+        : "";
+      const marcaPeso = it.origem === "banca" ? "" :
+        ` <span class="chip" data-tip="${esc(it.origem === "edital"
+          ? "Peso repartido pelos assuntos que o edital nomeia neste item: não havia prova anterior bastante para medir a incidência da banca."
+          : "Peso corrigido na mão por ela. Morre na troca de edital.")}">${it.origem}</span>`;
+      linhas += `<tr>
+        <td class="id">${it.item}</td>
+        <td>${esc(it.nome)}${it.real ? "" : ' <span class="chip lac">Lacuna</span>'}${chipAncora}${it.estado === "new" ? ' <span class="chip">nunca estudado</span>' : ""}</td>
+        <td class="num">${um(it.peso, 2)}${marcaPeso}</td>
+        <td class="num">${it.real}</td>
+        <td class="num"${r.resp ? ` data-tip="${esc(`${r.deReal} de Questão real, ${r.deRecond} de Questão recondicionada.`)}"` : ""}>${frac(r.certas, r.resp)}</td>
+        ${celulaAgente}
+        <td class="num" style="color:var(--ink-2)">${frac(s.certas, s.resp)}</td>
+        <td>${curva(it.item)}</td></tr>`;
+    }
+  }
+
+  // O bloco da coluna inteira, sempre presente: é o que se cola quando a regra do Hit muda e
+  // todo item discorda de uma vez, e é o que o `--dump-dom` lê quando o EDITAL.md se perdeu.
+  // A página é o único contador; o agente nunca soma as linhas R.
+  //
+  // A leitura headless recorta só este bloco, e nunca o DOM inteiro (100 KB contra 550 bytes):
+  //   chromium --headless --disable-gpu --dump-dom "file://$PWD/painel.html" \
+  //     | sed -n '/id="coluna-hit"/,/<\/pre>/{p;/<\/pre>/q}' | sed 's/<[^>]*>//g' | grep .
+  // O `q` do sed é obrigatório: o id aparece uma segunda vez no código desta página, que o
+  // --dump-dom devolve junto, e sem ele o recorte vai até o fim do arquivo.
+  const colunaHit = itens.map(i => `${i.item} ${real.get(i.item).certas}/${real.get(i.item).resp}`).join("\n");
+
+  // Um item discordando é erro de conta e vira uma edição ditada. Muitos discordando ao mesmo
+  // tempo é regra que mudou, e aí a linha por item vira uma parede: vale a coluna inteira.
+  const comHit = itens.filter(i => hitAgente.has(i.item)).length;
+  const MUITAS = Math.max(4, Math.ceil(comHit / 3));
+  const edicoes = brigas.map(b =>
+    `No <code>EDITAL.md</code>, troque o <code>Hit</code> do <b>${b.item}</b> de ${b.ag.certas}/${b.ag.total} para ${b.pag.certas}/${b.pag.resp}.`);
+  const avisoBriga = brigas.length
+    ? `<div class="aviso"><b>${brigas.length} ${brigas.length === 1 ? "item não bate" : "itens não batem"}.</b>
+       O <code>Hit</code> que o agente gravou no <code>EDITAL.md</code> difere do que esta página contou das
+       linhas <code>R</code>. A fonte é a mesma e a regra é a mesma dos dois lados — Questão real e Questão
+       recondicionada somadas, sem repetida, sem branco, Chute certo contando como erro —, então um dos dois
+       errou a conta, e é o <code>Hit</code> que decide a triagem. Vale o número desta página.
+       ${brigas.length < MUITAS
+         ? `<p style="margin:8px 0 0">${edicoes.join("<br>")}</p>`
+         : `<p style="margin:8px 0 0">${brigas.length} de ${comHit} itens discordam de uma vez, o que não é erro de
+            conta item a item: é a regra do <code>Hit</code> tendo mudado desde que esses números foram gravados.
+            Em vez de ${brigas.length} edições, vale trocar a coluna inteira — ela está pronta no bloco
+            <b>Hit, a coluna inteira</b> embaixo da tabela.</p>`}
+       </div>`
+    : "";
+
+  // As respostas que a troca de edital deixou sem item. Antes elas evaporavam da tabela e da
+  // nota sem uma palavra; agora somem da tabela, que é do edital de hoje, mas são declaradas.
+  const listaFora = [...forasteiras.entries()].sort((a, b) => b[1].n - a[1].n);
+  const avisoFora = foraTotal
+    ? `<p class="note"><b>${foraTotal} ${foraTotal === 1 ? "resposta está" : "respostas estão"} fora do edital de hoje</b>,
+       ${listaFora.length === 1 ? "de um item que" : "de itens que"} a troca de edital aposentou sem par:
+       ${listaFora.map(([item, f]) => `<b>${esc(item)}</b>${f.nome ? ` (${esc(f.nome)})` : ""} ${f.n}`).join(", ")}.
+       ${foraTotal === 1 ? "Ela continua" : "Elas continuam"} no <code>dados.js</code> e ${foraTotal === 1 ? "mantém" : "mantêm"}
+       a nota dos simulados em que ${foraTotal === 1 ? "foi respondida" : "foram respondidas"};
+       o que ${listaFora.length === 1 ? "esse item" : "esses itens"} ${listaFora.length === 1 ? "media" : "mediam"}
+       não tem mais onde aparecer na tabela, porque o edital de hoje não cobra o assunto.</p>`
+    : "";
+
+  const corte = cfg.nota_de_corte != null
+    ? `Nota de corte: ${cfg.nota_de_corte}.`
+    : (cfg.nota_de_corte_nota || "Sem nota de corte histórica: a página não estima uma.");
+
+  const elimUltimo = ultimoCompleto && ultimoCompleto.elim.length
+    ? `<p class="note" style="color:var(--warn-ink)">${esc(ultimoCompleto.elim.join(" "))}</p>` : "";
+  const semMedida = ultimoCompleto && ultimoCompleto.semMedida.length
+    ? `<p class="note">Sem medida em ${esc(ultimoCompleto.semMedida.join(", "))}: nenhuma questão com gabarito oficial disponível.</p>` : "";
+
+  // A comparação com a nota de corte sai sempre com a Cobertura e a Composição do caderno ao
+  // lado. E abaixo do piso ela não sai: um caderno com menos da metade dos pontos da prova em
+  // questão que conta e é inédita não tem do que comparar, e desenhar a linha com um aviso ao
+  // lado — como esta página fazia — é desenhar o número e pedir que ela o descredite sozinha.
+  const uc = ultimoCompleto;
+  const linhaCorte = uc
+    ? `<p class="note"><b>Último completo</b> (${uc.num}, ${fmtD(uc.data)}):
+       ${esc(cobertura(uc))}, sendo ${esc(composicao(uc))}.
+       ${uc.pct === null ? "Sem nota." : `Sua nota: ${um(uc.obtidos, 1)} de ${um(uc.possiveis, 1)} pontos (${uc.pct}%).`}
+       ${uc.abaixoDoCorte
+         ? `<span style="color:var(--warn-ink)">A linha da nota de corte não sai deste caderno: ele trouxe
+            ${um(uc.ineditos, 1)} pontos de questão que conta e é inédita, abaixo do piso de ${um(uc.pisoCorte, 1)},
+            que é metade dos ${um(uc.pontosDaProva, 1)} pontos da prova. A nota acima continua valendo pelo que ela é;
+            o que não dá é comparar meia medida com a prova inteira.</span>`
+         : esc(corte)}</p>`
+    : "";
+
+  // O piso de agendamento. Um completo abaixo dele não deveria ter entrado no HABIT.md, e a
+  // página é o único lugar onde isso aparece depois do fato.
+  const semAgenda = simulados.filter(s => s.abaixoDaAgenda);
+  const avisoAgenda = semAgenda.length
+    ? `<div class="aviso"><b>${semAgenda.length === 1
+         ? "Um Simulado completo foi marcado abaixo do piso de agendamento"
+         : `${semAgenda.length} Simulados completos foram marcados abaixo do piso de agendamento`}.</b>
+       Um completo só se marca quando o acervo promete ao menos um terço dos pontos da prova em questão que
+       conta e é inédita. Abaixo disso o caderno não é ensaio geral de nada, e a cota gasta em montá-lo
+       teria rendido mais em lição.
+       <p style="margin:8px 0 0">${semAgenda.map(s =>
+         `<b>${s.num}</b> (${fmtD(s.data)}): ${um(s.ineditos, 1)} pontos inéditos que contam, abaixo do piso de
+          ${um(s.pisoAgenda, 1)}.`).join("<br>")}</p></div>`
+    : "";
+
+  document.getElementById("app").innerHTML = `
+  <h1>Painel · ${esc(cfg.fonte)}</h1>
+  <p class="sub">Regime ${esc(cfg.regime || "–")} · começou em ${fmtD(cfg.inicio)} · hoje é ${fmtD(hojeISO)}${cfg.status === "provisional" ? " · <b>Edital provisório</b>: a regra de nota ainda não foi conferida num edital publicado" : ""}</p>
+
+  <div class="tiles">
+    ${tile("Dias até a prova", diasAteProva, `prova em ${fmtD(cfg.prova)}`)}
+    ${tile("Último simulado", (ultimo && ultimo.pct !== null ? ultimo.pct + "%" : "–"),
+           ultimo ? `${ultimo.num} · ${um(ultimo.obtidos, 1)}/${um(ultimo.possiveis, 1)} pontos` +
+                    (ultimo.frouxo ? ` · de ${ultimo.valem} das ${ultimo.linhas} questões` : "") : "nenhum ainda")}
+    ${tile("Cobertura do completo", uc ? `${uc.cobertura[0]}/${uc.cobertura[1]}` : "–",
+           uc ? `${uc.ineditas} inéditas · ${esc(composicao(uc))}` : "vagas preenchidas")}
+    ${tile("Lacunas", `${lacunas.length}/${itens.length}`,
+           semAncora.length ? `itens sem questão real · ${semAncora.length} sem Âncora` : "itens sem questão real")}
+    ${tile("Nunca estudados", `${novos.length}/${itens.length}`, "itens do edital")}
+  </div>
+
+  ${avisoBriga}${avisoAgenda}
+
+  <div class="card">
+    <h2>Notas dos simulados</h2>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--real);border-radius:99px"></span>curto</span>
+      <span><span class="sw" style="background:var(--real)"></span>completo</span>
+      <span><span class="sw" style="border:2px solid var(--real)"></span>completo marcado, ainda sem nota</span>
+      <span><span class="sw" style="background:var(--warn-line);border-radius:99px"></span>abaixo do piso da nota de corte, no completo; menos da metade do caderno em real, no curto</span>
+    </div>
+    ${grafico()}
+    <p class="note">Nota calculada nesta página, das respostas cruas mais a regra de nota do edital:
+      ${Object.entries(cfg.pontos_por_bloco || {}).map(([b, p]) => `${esc(b)} ${um(p, 1)}`).join(" · ")};
+      errada ${desconto ? `desconta ${um(desconto, 2)} do valor da questão` : "não desconta"};
+      branco vale ${um(valorBranco, 1)}.
+      A nota soma Questão real e Questão recondicionada; sintética ocupa vaga e fica fora da conta.
+      ${regras.length > 1
+        ? `Cada simulado é pontuado pela regra que valia no dia dele, não por esta: os
+           ${simulados.filter(s => s.regra !== cfg).length} simulados anteriores a ${fmtD(cfg.desde)}
+           mantêm a nota que tinham antes da troca de edital.`
+        : ""}</p>
+    ${linhaCorte}${elimUltimo}${semMedida}${avisoFora}
+    <div class="scroll"><table style="margin-top:10px">
+      <thead><tr><th>Simulado</th><th>Data</th><th>Tipo</th><th class="num">Questões</th>
+        <th class="num">Contam</th><th class="num">Certas</th><th class="num">Pontos</th><th class="num">Nota</th>
+        <th class="num">No chute</th><th class="num">Brancos</th><th>Composição</th></tr></thead>
+      <tbody>${simulados.map(s => `<tr>
+        <td><a href="simulados/${esc(String(s.num).replace(/^\D+/, ""))}-comentado.md" data-tip="${esc(
+          "O Gabarito comentado deste simulado: uma entrada por erro, Chute e Branco.\nSe o arquivo não abrir, é porque este simulado não teve nenhum dos três.")}">${s.num}</a></td>
+        <td>${fmtD(s.data)}</td><td>${tipoCelula(s)}</td>
+        <td class="num">${s.linhas}</td>
+        <td class="num"${s.comp.sint ? ` data-tip="${esc(`${s.comp.sint} sintéticas ocupam vaga no caderno e ficam fora da nota.`)}"` : ""}>${s.valem}</td>
+        <td class="num">${s.certas}</td>
+        <td class="num">${um(s.obtidos, 1)}/${um(s.possiveis, 1)}</td>
+        <td class="num">${s.pct === null ? "–" : s.pct + "%"}</td>
+        <td class="num">${s.chuteCertos}</td><td class="num">${s.brancos}</td>
+        <td>${esc(composicao(s))}<br><span class="raw">${esc(cobertura(s))}</span></td></tr>`).join("")}</tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h2>Acerto por item do edital</h2>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--real)"></span>reais e recondicionadas: a medida de prontidão</span>
+      <span><span class="sw" style="background:var(--sint)"></span>sintéticas, contadas à parte</span>
+      <span>a curva acumula ${SEMANAS} semanas, ${fmtD(semanas[0].toISOString().slice(0, 10))} a ${fmtD(semanas[SEMANAS - 1].toISOString().slice(0, 10))}; a linha cinza marca 50%</span>
+    </div>
+    <div class="scroll"><table>
+      <thead><tr>
+        <th>Item</th><th>Nome</th><th class="num">Peso</th><th class="num">Reais</th>
+        <th class="num">Acerto<br><span class="raw">real + recond.</span></th>
+        <th class="num">Hit<br><span class="raw">do EDITAL.md</span></th>
+        <th class="num">Sintéticas</th><th>${SEMANAS} semanas</th>
+      </tr></thead>
+      <tbody>${linhas}</tbody>
+    </table></div>
+    <details style="margin-top:12px">
+      <summary style="cursor:pointer;color:var(--ink-2);font-size:13px">Hit, a coluna inteira (${itens.length} itens, pronta para colar no <code>EDITAL.md</code>)</summary>
+      <pre id="coluna-hit">${esc(colunaHit)}</pre>
+    </details>
+    <p class="note">Acerto conta Questão real e Questão recondicionada juntas, que é a regra do <code>Hit</code>:
+      as duas têm gabarito oficial atrás, e a triagem quer saber o que ela sabe, não que forma a banca usou.
+      Sem repetida e sem branco; Chute que acerta conta como erro. Na nota do simulado, acima, o Chute conta
+      como acerto — lá a prova não sabe que foi chute.
+      Peso marcado <span class="chip">edital</span> foi repartido pelos assuntos do edital, não pela incidência da banca;
+      <span class="chip">manual</span> foi corrigido por ela.</p>
+  </div>
+
+  <footer>${R.length} respostas (${R.filter(CONTA).length} contam, ${R.length - R.filter(CONTA).length} sintéticas${foraTotal ? `, ${foraTotal} fora do edital de hoje` : ""}) ·
+  ${simulados.length} simulados · ${itens.length} itens do edital${X.length ? ` · ${TODOS.size - itens.length} itens aposentados por ${X.length} linhas de remapeamento` : ""}.
+  Tudo nesta página é calculado no navegador a partir do <code>dados.js</code>; o agente não faz conta nenhuma aqui.</footer>`;
+}
+
+render();
+
+const tip = document.getElementById("tip");
+addEventListener("mousemove", e => {
+  const t = e.target.closest && e.target.closest("[data-tip]");
+  if (!t) { tip.style.display = "none"; return; }
+  tip.textContent = t.getAttribute("data-tip");
+  tip.style.display = "block";
+  tip.style.left = Math.min(e.clientX + 14, innerWidth - 310) + "px";
+  tip.style.top = (e.clientY + 14) + "px";
+});
+</script>
+</body>
+</html>
