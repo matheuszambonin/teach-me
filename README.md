@@ -70,4 +70,4 @@ drill-me is teach-me's exam-preparation sibling. Its session zero interrogation 
 
 ## License
 
-MIT. See [LICENSE](./LICENSE), which carries both copyright notices.
+MIT. See [LICENSE](./LICENSE), which carries every copyright notice in the package.
