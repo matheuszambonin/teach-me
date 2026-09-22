@@ -25,7 +25,13 @@ Measured against `markitdown` and `pdftotext` on 2026-09-20. `pymupdf4llm` won o
 All three were found in that measurement, and all three are silent.
 
 1. **`use_ocr` defaults to `True`** in `pymupdf4llm` 1.28, and without tesseract installed it breaks the whole conversion, even on a PDF that has a text layer. `tools/transcrever.py` passes `use_ocr=False`. Keep it that way.
-2. **A scanned PDF returns an empty file, with no error.** That is why the scan prints `VAZIO` for it. An empty Transcrição is the one case where the agent reads the PDF itself, by path, with the file-reading tool.
+2. **A scanned PDF returns an empty file, with no error.** That is why the scan prints `VAZIO` for it, and why it writes one marker line into the `.md` instead of leaving it empty:
+
+   ```
+   <!-- VAZIO: PDF escaneado, sem camada de texto. Leia o PDF direto. -->
+   ```
+
+   Without the marker the next scan would skip that PDF in silence, and the agent would read an empty file and conclude the document says nothing. A Transcrição that is this one line is the one case where the agent reads the PDF itself, by path, with the file-reading tool.
 3. **The install pulls 108 MB**, because `pymupdf4llm` brings `onnxruntime`, `numpy`, `networkx` and `protobuf`. Worth knowing before doing this over a phone connection.
 
 No OCR is installed. Installing tesseract on Windows for the occasional scanned exam does not pay for itself, and the file-reading tool already reads images.

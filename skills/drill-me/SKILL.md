@@ -175,7 +175,7 @@ At Closing, when two or more errors marked `none` share a trait, write a new Pad
 
 ## Questions and sources
 
-**You read the Transcrição, not the PDF**, and only the part you need. The one exception is a scanned PDF, whose Transcrição comes out empty: read that one with the file-reading tool, by path, never through the terminal.
+**You read the Transcrição, not the PDF**, and only the part you need. The one exception is a scanned PDF, whose Transcrição is a single `VAZIO` marker line: read that one with the file-reading tool, by path, never through the terminal.
 
 When you see a PDF in the workspace with no `.md` beside it, or one older than the PDF, run the scan once over the whole folder:
 

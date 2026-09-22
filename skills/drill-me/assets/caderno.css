@@ -1,0 +1,203 @@
+/* caderno.css. Estilo do Caderno do Simulado completo.
+ *
+ * O Caderno e escrito como HTML e impresso em PDF pelo Edge ou pelo Chromium
+ * headless, com --no-pdf-header-footer. Ver SIMULADO-FORMAT.md.
+ *
+ * Ele e lido no papel, com o alarme correndo, e as respostas vao para uma
+ * folha a parte. Entao aqui nao ha gabarito, nao ha rotulo de tipo de questao
+ * e nao ha nada que so funcione na tela.
+ */
+
+@page {
+  size: A4;
+  margin: 18mm 16mm 18mm 16mm;
+}
+
+html {
+  font-size: 11pt;
+}
+
+body {
+  margin: 0;
+  color: #000;
+  background: #fff;
+  font-family: "Charter", "Georgia", "Times New Roman", serif;
+  line-height: 1.45;
+  text-align: left;
+}
+
+/* Cabecalho: so o que ela precisa antes de comecar. */
+
+header {
+  border-bottom: 1.5pt solid #000;
+  padding-bottom: 6pt;
+  margin-bottom: 14pt;
+}
+
+header h1 {
+  font-size: 15pt;
+  margin: 0 0 4pt;
+  font-weight: 700;
+}
+
+header .regras {
+  margin: 0;
+  font-size: 10pt;
+}
+
+header .regras li {
+  margin-bottom: 2pt;
+  list-style: none;
+}
+
+header .regras {
+  padding-left: 0;
+}
+
+/* Cada Bloco comeca em pagina nova, como na prova. */
+
+section.bloco {
+  break-before: page;
+  page-break-before: always;
+}
+
+section.bloco:first-of-type {
+  break-before: auto;
+  page-break-before: auto;
+}
+
+section.bloco > h2 {
+  font-size: 12pt;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 0.5pt solid #000;
+  padding-bottom: 3pt;
+  margin: 0 0 12pt;
+}
+
+/* A questao nunca se parte entre duas paginas: uma alternativa orfa na
+ * pagina seguinte muda a questao. */
+
+article.questao {
+  position: relative;
+  padding-left: 22pt;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 16pt;
+}
+
+/* O numero fica fora da coluna do texto, como numa prova: o enunciado corre
+ * embaixo dele mesmo, nao ao lado. */
+
+article.questao > .numero {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+}
+
+article.questao > .enunciado {
+  margin: 0 0 6pt;
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Texto de apoio compartilhado por varias questoes. */
+
+.apoio {
+  border-left: 2pt solid #000;
+  padding: 2pt 0 2pt 8pt;
+  margin: 0 0 10pt;
+  font-size: 10pt;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Alternativas: uma por linha, a letra fora da coluna do texto. */
+
+ol.alternativas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ol.alternativas li {
+  position: relative;
+  padding-left: 22pt;
+  margin-bottom: 2pt;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+ol.alternativas li::before {
+  content: "(" counter(alternativa, lower-alpha) ") ";
+  counter-increment: alternativa;
+  position: absolute;
+  left: 0;
+}
+
+ol.alternativas {
+  counter-reset: alternativa;
+}
+
+/* Item certo ou errado, do Cebraspe e das bancas que usam a forma. */
+
+.certo-errado {
+  margin: 4pt 0 0 0;
+  font-size: 10pt;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 6pt 0;
+  font-size: 10pt;
+}
+
+th,
+td {
+  border: 0.5pt solid #000;
+  padding: 3pt 5pt;
+  text-align: left;
+}
+
+figure {
+  margin: 8pt 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+figure img {
+  max-width: 100%;
+}
+
+figcaption {
+  font-size: 9pt;
+  margin-top: 3pt;
+}
+
+/* Folha de respostas, no fim, para ela marcar sem folhear. */
+
+section.respostas {
+  break-before: page;
+  page-break-before: always;
+}
+
+section.respostas ol {
+  columns: 4;
+  column-gap: 12pt;
+  padding-left: 18pt;
+}
+
+section.respostas li {
+  margin-bottom: 6pt;
+}
+
+/* Na tela, quando nao ha navegador para imprimir e ela le o HTML. */
+
+@media screen {
+  body {
+    max-width: 44em;
+    margin: 0 auto;
+    padding: 24px 16px 64px;
+  }
+}
