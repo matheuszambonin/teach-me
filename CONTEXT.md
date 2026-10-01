@@ -91,6 +91,10 @@ _Avoid_: draft, next lesson, pre-written lesson
 The single new unit a session teaches, of type Knowledge or Skill, declared in the lesson file. One per lesson, never two.
 _Avoid_: topic, unit, module
 
+**Demo**:
+The manipulable simulation inside a lesson, tied to one claim of its text. It opens on the worked example's values, asks the learner to predict before anything moves, and shows live readouts that set the simulated value beside the value the claim predicts. Inside the range where the claim holds the two agree; outside it, the gap is part of what the Demo shows. Optional: a chunk with nothing to vary gets none.
+_Avoid_: simulator, widget, visualization, animation
+
 **Closing check**:
 The one production request that ends the Lesson block, asked with the lesson closed and graded recalled, with hint, or missed. Decides whether a learning record is written. Not a review: the item has no `Next review:` yet.
 _Avoid_: self-test, quiz, review
