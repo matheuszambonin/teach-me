@@ -92,7 +92,7 @@ Run the check on every lesson with a Demo before the lesson counts as written:
 node assets/check-demo.js lessons/NNNN-<name>.html [--screenshot <scratch>/NNNN.png]
 ```
 
-It runs the model in Node at the example, at the target, at both ends of every slider (finite values only), at every range edge combined with the other sliders' ends, and at every point in `check`. It checks that the option marked `correct` is the only one whose `ratio` matches the model, that `demo-text.js` has every key, and, when Chromium or Chrome is installed, it opens the lesson with `?check=1` and reads the result from the final DOM. Exit code 0 is a pass.
+It runs the model in Node at the example, at the target, at both ends of every slider (finite values only), at every range edge combined with the other sliders' ends, and at every point in `check`. It checks that the option marked `correct` is the only one whose `ratio` matches the model, that `demo-text.js` has every key, and, when Chromium, Chrome or Edge is installed, it opens the lesson with `?check=1` and reads the result from the final DOM. Exit code 0 is a pass. Without a browser the summary reads `PASSED (level 1 only; level 2 did not run)`.
 
 - No `node` on the machine: the lesson goes out without a Demo.
 - Pass `--screenshot` when the model or `draw` is new, and look at the image.

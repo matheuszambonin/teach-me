@@ -3,16 +3,19 @@
 //   node assets/check-demo.js lessons/NNNN-name.html [--screenshot file.png]
 // Level 1 (required): runs the model in Node at the example, the target, the slider ends,
 // the range edges and the extra points, and checks the prediction's answer key.
-// Level 2 (when Chromium or Chrome exists): opens the lesson with ?check=1 and reads
+// Level 2 (when Chromium, Chrome or Edge exists): opens the lesson with ?check=1 and reads
 // the final DOM. Exits with code 1 if anything fails.
 'use strict';
 
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
+const { pathToFileURL } = require('url');
 const Integ = require('./integ.js');
 
 const BROWSERS = ['chromium', 'chromium-browser', 'google-chrome', 'google-chrome-stable', 'chrome'];
+// On Windows, `which` (from Git) returns POSIX paths that spawnSync cannot run.
+const WINDOWS_BROWSERS = ['Google/Chrome/Application/chrome.exe', 'Microsoft/Edge/Application/msedge.exe', 'Chromium/Application/chrome.exe'];
 const BROWSER_TIMEOUT_MS = 30000;
 const RATIO_DECIMALS = 2;
 
@@ -125,6 +128,16 @@ function checkText(assetsDir) {
 }
 
 function findBrowser() {
+  if (process.platform === 'win32') {
+    const roots = [process.env.ProgramFiles, process.env['ProgramFiles(x86)'], process.env.LOCALAPPDATA].filter(Boolean);
+    for (const root of roots) {
+      for (const exe of WINDOWS_BROWSERS) {
+        const candidate = path.join(root, exe);
+        if (fs.existsSync(candidate)) return candidate;
+      }
+    }
+    return null;
+  }
   for (const name of BROWSERS) {
     const r = spawnSync('which', [name], { encoding: 'utf8' });
     if (r.status === 0) return r.stdout.trim();
@@ -135,10 +148,10 @@ function findBrowser() {
 function checkInBrowser(lessonPath, specs, screenshot) {
   const browser = findBrowser();
   if (!browser) {
-    console.log('\nBrowser: no Chromium or Chrome on this machine; level 2 did not run.');
-    return true;
+    console.log('\nBrowser: no Chromium, Chrome or Edge on this machine; level 2 did not run.');
+    return null;
   }
-  const url = 'file://' + path.resolve(lessonPath) + '?check=1';
+  const url = pathToFileURL(path.resolve(lessonPath)).href + '?check=1';
   const base = ['--headless=new', '--disable-gpu', '--no-sandbox', '--virtual-time-budget=2000'];
   const r = spawnSync(browser, [...base, '--dump-dom', url], { encoding: 'utf8', timeout: BROWSER_TIMEOUT_MS });
   const dom = r.stdout || '';
@@ -177,8 +190,9 @@ function main() {
   const nodeOk = specs.map((s) => checkSpec(s, path.dirname(path.resolve(lessonPath)))).every(Boolean);
   const textOk = checkText(path.resolve(path.dirname(lessonPath), '..', 'assets'));
   const browserOk = checkInBrowser(lessonPath, specs, screenshot);
-  const ok = nodeOk && textOk && browserOk;
-  console.log('\n' + (ok ? 'PASSED' : 'FAILED'));
+  const ok = nodeOk && textOk && browserOk !== false;
+  const levelNote = browserOk === null ? ' (level 1 only; level 2 did not run)' : '';
+  console.log('\n' + (ok ? 'PASSED' : 'FAILED') + levelNote);
   process.exit(ok ? 0 : 1);
 }
 
