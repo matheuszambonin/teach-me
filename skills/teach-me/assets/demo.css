@@ -1,0 +1,46 @@
+/* Demo styles. Uses the workspace stylesheet's variables, with its own fallbacks when they are missing.
+   The lock and the print layout depend on this file. */
+.demo { margin: 1.6rem 0; padding: 1rem 0; border-top: 1px solid var(--rule, #ccc); border-bottom: 1px solid var(--rule, #ccc); }
+.demo-question p { margin: .3rem 0; }
+.demo-options { margin: .6rem 0; }
+.demo-option { font: inherit; font-size: .95rem; margin: .2rem .4rem .2rem 0; padding: .3rem .7rem; background: none; color: var(--fg, #111); border: 1px solid var(--rule, #ccc); border-radius: 3px; cursor: pointer; }
+.demo-option:disabled { cursor: default; opacity: .55; }
+.demo-option.demo-chosen { opacity: 1; border-color: var(--fg, #111); }
+.demo-lock { font-size: .9rem; color: var(--muted, #666); font-style: italic; }
+.demo:not(.demo-locked) .demo-lock { display: none; }
+
+.demo-canvas { display: block; width: 100%; height: auto; margin: .8rem 0; background: var(--bg, #fffff8); }
+
+.demo-controls { display: grid; gap: .3rem; font-size: .95rem; }
+.demo-slider { display: grid; grid-template-columns: 11rem 1fr 6.5rem; align-items: center; gap: .6rem; }
+.demo-slider output { font-family: var(--mono, monospace); font-size: .9rem; text-align: right; }
+.demo-buttons { margin: .6rem 0; }
+.demo-buttons button { font: inherit; font-size: .9rem; margin-right: .4rem; padding: .25rem .6rem; background: none; color: var(--fg, #111); border: 1px solid var(--rule, #ccc); border-radius: 3px; cursor: pointer; }
+
+/* Lock: controls and readouts stay dimmed until the prediction. */
+.demo-locked .demo-controls, .demo-locked .demo-buttons { opacity: .35; pointer-events: none; }
+.demo-locked .demo-readouts, .demo-locked .demo-notice, .demo-locked .demo-verdict { visibility: hidden; }
+
+.demo-readouts { border-collapse: collapse; font-size: .95rem; margin: .6rem 0; }
+.demo-readouts th, .demo-readouts td { padding: .15rem .8rem .15rem 0; text-align: left; font-weight: 400; }
+.demo-readouts tr:first-child th { color: var(--muted, #666); font-size: .85rem; }
+.demo-readouts output { font-family: var(--mono, monospace); }
+.demo-readouts tr.demo-defect output { color: var(--accent, #a00000); }
+.demo-readouts tr.demo-defect td:last-child::after { content: " ≠"; color: var(--accent, #a00000); }
+.demo-readouts tr.demo-outside td { color: var(--muted, #666); }
+
+.demo-notice { font-size: .9rem; color: var(--accent, #a00000); min-height: 1.2em; }
+.demo-verdict { min-height: 1.4em; }
+.demo-verdict.demo-right { color: var(--ok, #2c6e2f); }
+.demo-verdict.demo-wrong { color: var(--accent, #a00000); }
+
+.demo-print { display: none; }
+
+@media print {
+  .demo-canvas, .demo-controls, .demo-buttons, .demo-readouts, .demo-notice, .demo-verdict, .demo-lock, .demo figcaption { display: none !important; }
+  .demo-option { border: none; padding: 0; opacity: 1 !important; }
+  .demo-option::before { content: "○ "; }
+  .demo-print { display: table; border-collapse: collapse; font-size: .9rem; margin-top: .6rem; }
+  .demo-print caption { text-align: left; font-style: italic; padding-bottom: .3rem; }
+  .demo-print th, .demo-print td { padding: .15rem 1rem .15rem 0; text-align: left; font-weight: 400; }
+}
