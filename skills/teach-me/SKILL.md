@@ -21,6 +21,7 @@ Treat the current directory as the teaching workspace. The learner's state lives
 - `./reference/*.html`: the compressed essence of the lessons. Cheat sheets, reference algorithms, syntax, sequences. Printable, built for quick lookup, each carrying a `next-review` meta tag. See [Reference documents](#reference-documents).
 - `./learning-records/NNNN-<dash-case-name>.md`: what the learner has shown they can do, each with a `Next review:` line once something has tested it. They drive the zone of proximal development. Format in [LEARNING-RECORD-FORMAT.md](./LEARNING-RECORD-FORMAT.md).
 - `./assets/*`: components shared across lessons. See [Assets](#assets).
+- `./assets/models/<slug>.js`: the simulation behind a Demo, one per system, shared by every lesson about it. Format in [DEMO-FORMAT.md](./DEMO-FORMAT.md).
 
 ## Philosophy
 
@@ -51,7 +52,7 @@ Every session runs the same three blocks inside one 25-minute pomodoro. The lear
 1. Read `NOTES.md` for the language, then `HABIT.md`. If the gap since the last log line exceeds twice the interval in How often, or the learner reports missed sessions, follow the lapse rules in `HABIT-FORMAT.md`.
 2. Print What pulls you back and Reward from `HABIT.md`, verbatim.
 3. Ask the learner to start a 25-minute timer.
-4. Ask, in one line, what came of the last lesson's carry question. No grading.
+4. Ask, in one line, what came of the last lesson's carry question. No grading. If the learner reports that a Demo's two numbers disagreed, follow Defects in `DEMO-FORMAT.md` before the reviews.
 5. Run up to three reviews, most overdue first, per `REVIEW-FORMAT.md`. More than six due makes this a review session: skip Lesson.
 6. Choose the chunk from the [zone of proximal development](#zone-of-proximal-development). If the [prepared lesson](#lessons) teaches it, open it. Otherwise write the lesson (`LESSON-FORMAT.md`) and the reference and glossary entries it links now, then open it. The timer keeps running.
 
@@ -61,7 +62,7 @@ The learner works the lesson. Answer questions as they come. If the learner stal
 
 ### Closing (chat, lesson closed, up to 5 minutes)
 
-1. Closing check: one production request chosen by the lesson's `chunk` meta. Knowledge: recite the lesson and explain it to someone without the context. Skill: solve a fresh instance. Grade recalled, with hint, or missed, and give feedback either way (Oakley ch. 7).
+1. Closing check: one production request chosen by the lesson's `chunk` meta. Knowledge: recite the lesson and explain it to someone without the context. Skill: solve a fresh instance, other than the Demo's prediction question, whose answer was already on screen. Grade recalled, with hint, or missed, and give feedback either way (Oakley ch. 7).
 2. Recalled or with hint: write the learning record, born at `1d`. Missed: no record; the same chunk returns next session as a new lesson with a different explanation or source. Missed twice in a row on the same chunk: treat it as a prerequisite gap, ask what was missing, make the prerequisite the next chunk, and write a record naming the gap.
 3. Rewrite the `Next review:` line of every item reviewed in Opening.
 4. Append the log line to `HABIT.md`: `done · lesson NNNN`, `done · lesson NNNN · missed`, `done · review session`, or `done · habit session`.
@@ -122,6 +123,8 @@ A lesson is written at the Closing of the session before it, together with the r
 Lessons are built from reusable components stored in `./assets/`: stylesheets, quiz widgets, simulators, diagram helpers, and anything else a second lesson could reuse.
 
 Reuse is the default. Before authoring a lesson, read `./assets/` and build from the components already there. When a lesson needs something new and reusable, write it as a component in `./assets/` and link to it. Inline code that a future lesson would duplicate goes in a component instead.
+
+The one exception is the Demo shell. The skill ships it ready and tested in its own `assets/`, and you copy it into the workspace at the first Demo and over the workspace copy whenever that copy is older. The chunk's own model goes in `./assets/models/`. Both are described in [DEMO-FORMAT.md](./DEMO-FORMAT.md).
 
 A shared stylesheet is the first component every workspace earns. Every lesson links it, so the lessons look like one course. The stylesheet also styles the `<details>` element that hides a worked example until the learner has tried it. That is a style rule, not a component file. As the workspace grows, so does the component library.
 
@@ -191,7 +194,7 @@ Every reference whose lesson has been taught carries `<meta name="next-review" c
 
 ## `NOTES.md`
 
-Line one is `Language: {code}`. Below it, in any order: the learner's preferences about how they want to be taught, things to keep in mind about the learner (such as a belief that they lack talent, recorded without comment), and one line per episode of in-session procrastination with the date, the lesson section and the step that worked. The structural review of the habit reads those lines.
+Line one is `Language: {code}`. Below it, in any order: the learner's preferences about how they want to be taught, things to keep in mind about the learner (such as a belief that they lack talent, recorded without comment), one line per Demo removed because its check failed, and one line per episode of in-session procrastination with the date, the lesson section and the step that worked. The structural review of the habit reads the procrastination lines.
 
 ## Language
 

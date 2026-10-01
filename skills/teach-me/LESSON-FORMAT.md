@@ -16,17 +16,18 @@ A lesson is one self-contained HTML file in `./lessons/`, named `NNNN-<dash-case
 2. **Opening question.** The question this lesson answers, and one sentence tying it to `MISSION.md` (ch. 11: a lesson is a story with a question).
 3. **Where this fits.** Two or three lines of big picture: what came before, what this unlocks (ch. 4, top-down before bottom-up).
 4. **The idea.** One idea, then one worked example inside a `<details>` block: the problem visible, the solution hidden until the learner has tried. Ask the learner to explain why each step follows from the previous one, not only why it is valid (ch. 4).
-5. **Practice.** Three to five items with immediate, automatic feedback, built from `./assets/` components. Quiz options have the same word count. For a `skill` chunk with earlier lessons, at least one item comes from an earlier chunk, mixed in unannounced, so the learner practices choosing the technique (ch. 4).
-6. **Primary source.** The one highest-trust resource on this chunk, from `RESOURCES.md`.
-7. **Carry question.** One open question, tied to the likely next chunk or to the mission, for the learner to take into the break (ch. 8). The agent reads it back at the next Opening.
-8. **Ask the agent.** The reminder that the agent is the teacher and takes follow-up questions.
+5. **Demo.** Optional. A simulation tied to the claim of "The idea", where the learner predicts and then varies one parameter and compares the simulated value with the formula. It comes after the worked example, because its readouts would give the hidden solution away. Whether a chunk gets one, and how it is written and checked, is in [DEMO-FORMAT.md](./DEMO-FORMAT.md).
+6. **Practice.** Three to five items with immediate, automatic feedback, built from `./assets/` components. Quiz options have the same word count. For a `skill` chunk with earlier lessons, at least one item comes from an earlier chunk, mixed in unannounced, so the learner practices choosing the technique (ch. 4). A lesson with a Demo has three items, because the Demo is already practice with immediate feedback.
+7. **Primary source.** The one highest-trust resource on this chunk, from `RESOURCES.md`.
+8. **Carry question.** One open question, tied to the likely next chunk or to the mission, for the learner to take into the break (ch. 8). The agent reads it back at the next Opening.
+9. **Ask the agent.** The reminder that the agent is the teacher and takes follow-up questions.
 
 No self-test section. The closing check happens in chat, lesson closed, because an open page produces the feeling of knowing (ch. 4) and the browser returns no result to the agent.
 
 ## Limits
 
 - One chunk. If the idea needs a second one, the second waits for the next session.
-- Running text up to about 600 words, practice excluded.
+- Running text up to about 600 words, practice and Demo excluded. The Demo's own text stays under about 80 words.
 - Every lesson links the shared stylesheet, the references it relies on, and the lesson it replaces if it is a retry after a missed closing check.
 - Written in the learner's language. The `chunk` meta name stays in English.
 
