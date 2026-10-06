@@ -95,7 +95,7 @@ node assets/check-demo.js lessons/NNNN-<name>.html [--screenshot <scratch>/NNNN.
 It runs the model in Node at the example, at the target, at both ends of every slider (finite values only), at every range edge combined with the other sliders' ends, and at every point in `check`. It checks that the option marked `correct` is the only one whose `ratio` matches the model, that `demo-text.js` has every key, and, when Chromium, Chrome or Edge is installed, it opens the lesson with `?check=1` and reads the result from the final DOM. Exit code 0 is a pass. Without a browser the summary reads `PASSED (level 1 only; level 2 did not run)`.
 
 - No `node` on the machine: the lesson goes out without a Demo.
-- Pass `--screenshot` when the model or `draw` is new, and look at the image.
+- Pass `--screenshot` when the model or `draw` is new, and look at the image. It opens at the Demo; a lesson with several Demos gets one image each, suffixed with the Demo's id.
 - A failure in Closing: fix and rerun, up to two times. In Opening step 6, one time. Still failing: remove the Demo from the lesson and write one line in `NOTES.md` with the date, the chunk and the failing point.
 
 When a file in `./assets/models/` changes, rerun the check on every lesson that loads it (`grep -l 'models/<slug>.js' lessons/`). A shell overwrite needs no recheck.

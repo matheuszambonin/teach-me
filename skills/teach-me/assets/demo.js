@@ -27,6 +27,8 @@
   };
 
   var checkMode = /[?&]check=1\b/.test(root.location ? root.location.search : '');
+  // ?check=1&shot=<id> lifts the page so that Demo sits at the top, for the --screenshot check.
+  var shotId = (/[?&]shot=([\w-]+)/.exec(root.location ? root.location.search : '') || [])[1];
 
   // Errors from any script go into an attribute, for the --dump-dom check.
   if (root.addEventListener) {
@@ -322,6 +324,10 @@
     s = Integ.run(model, p);
     draw(ctx, s, p, model);
     if (checkMode) check();
+    if (checkMode && shotId === id) {
+      var top = root_.getBoundingClientRect().top + (root.pageYOffset || 0);
+      document.documentElement.style.transform = 'translateY(' + -Math.max(0, top - 24) + 'px)';
+    }
   }
 
   root.Demo = { mount: mount, TEXT: TEXT };

@@ -167,8 +167,12 @@ function checkInBrowser(lessonPath, specs, screenshot) {
     if (status !== 'pass') ok = false;
   });
   if (screenshot) {
-    spawnSync(browser, [...base, '--window-size=900,2400', '--screenshot=' + path.resolve(screenshot), url], { timeout: BROWSER_TIMEOUT_MS });
-    console.log('Screenshot: ' + screenshot);
+    // One image per Demo. ?shot=<id> makes demo.js lift the page so the Demo is what the image shows.
+    specs.forEach((spec, i) => {
+      const file = i === 0 ? screenshot : screenshot.replace(/(\.\w+)?$/, '-' + spec.id + '$1');
+      spawnSync(browser, [...base, '--window-size=900,1400', '--screenshot=' + path.resolve(file), url + '&shot=' + spec.id], { timeout: BROWSER_TIMEOUT_MS });
+      console.log('Screenshot: ' + file + ' (Demo ' + spec.id + ')');
+    });
   }
   return ok;
 }

@@ -15,6 +15,8 @@ With the `skills` CLI, which asks which skill you want:
 npx skills add matheuszambonin/teach-me
 ```
 
+Update later with `npx skills update -g teach-me`. On Windows, leave out `-a claude-code`: it replaces the junction in `~/.claude/skills` with a copy, and the next update then misses that copy.
+
 By hand, as a symlink into your Claude Code skills directory:
 
 ```sh

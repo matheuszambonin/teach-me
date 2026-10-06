@@ -65,7 +65,7 @@ The learner works the lesson. Answer questions as they come. If the learner stal
 1. Closing check: one production request chosen by the lesson's `chunk` meta. Knowledge: recite the lesson and explain it to someone without the context. Skill: solve a fresh instance, other than the Demo's prediction question, whose answer was already on screen. Grade recalled, with hint, or missed, and give feedback either way (Oakley ch. 7).
 2. Recalled or with hint: write the learning record, born at `1d`. Missed: no record; the same chunk returns next session as a new lesson with a different explanation or source. Missed twice in a row on the same chunk: treat it as a prerequisite gap, ask what was missing, make the prerequisite the next chunk, and write a record naming the gap.
 3. Rewrite the `Next review:` line of every item reviewed in Opening.
-4. Append the log line to `HABIT.md`: `done · lesson NNNN`, `done · lesson NNNN · missed`, `done · review session`, or `done · habit session`.
+4. Append the log line to `HABIT.md`: `done · lesson NNNN`, `done · lesson NNNN · missed`, `done · review session`, or `done · habit session`. Rewrite the hand-off in [`NOTES.md`](#notesmd).
 5. Say the carry question aloud, and ask the learner to recall the lesson in two sentences before sleep tonight.
 6. Tell the learner, in one line, that the next lesson is being written and they can leave with the terminal open. Then choose the next chunk from the zone of proximal development and write the [prepared lesson](#lessons) with the reference and glossary entries it links. This step runs outside the pomodoro, after the learner has gone.
 
@@ -195,6 +195,8 @@ Every reference whose lesson has been taught carries `<meta name="next-review" c
 ## `NOTES.md`
 
 Line one is `Language: {code}`. Below it, in any order: the learner's preferences about how they want to be taught, things to keep in mind about the learner (such as a belief that they lack talent, recorded without comment), one line per Demo removed because its check failed, and one line per episode of in-session procrastination with the date, the lesson section and the step that worked. The structural review of the habit reads the procrastination lines.
+
+One more block is the **hand-off**: what is true today and what the last session left open, written for a session that starts with an empty context. Closing rewrites it in place and keeps it within 60 lines. What falls out of it goes to the top of `notes/history.md`, which a session opens only when a question asks about the past.
 
 ## Language
 
