@@ -34,13 +34,13 @@ A new record or reference is born at `1d`, so it is due at the next session (Oak
 ## What a review tests
 
 - **Learning record**: the record claims the learner can do something. Ask for it again: a fresh instance, the mechanism explained, the correction applied. Skill, not recognition.
-- **Reference**: the learner recites what the sheet contains, then opens it and compares. Knowledge.
+- **Reference**: pick two items of the sheet that a taught lesson explained. The learner says what each one is and applies it to a short case, then opens the sheet and compares. Knowledge. Before asking, find the lesson that taught the item; an item no taught lesson explains is not asked.
 
 Either way the question stays inside what the record states or a taught lesson explained. A gap that shows up outside that is a candidate for the next chunk and carries no grade.
 
 ## Grading
 
-Judge the learner's answer, give feedback either way (Oakley ch. 7), then rewrite the line:
+Judge the learner's answer, give feedback either way (Oakley ch. 7), then rewrite the line. Say the outcome to the learner in their language; the three English words are yours.
 
 | Outcome | Meaning | New line |
 |---|---|---|

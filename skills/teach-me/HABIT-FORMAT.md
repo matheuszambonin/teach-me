@@ -42,6 +42,7 @@ When {cue}, I open the workspace and run the session, because I get {reward}.
 - **One habit per workspace.** The session is the keystone habit. Do not register a second one.
 - **One screen.** The log compacts at each structural review; the other fields never grow.
 - **The cue must be noticeable by the learner.** A cue only the agent can see never fires.
+- **What pulls you back and Reward stay true every day.** The ritual prints them verbatim at every Opening, so they carry no date, countdown or count that goes stale.
 - **Cue and reward are the learner's choices.** The agent proposes; it never decides.
 - **The headings are the learner's words.** They follow [Plain words](./SKILL.md#plain-words), so the book's own terms (cue, craving, inflection points) stay in `references/duhigg.md` and never reach this file.
 - **Lapses stay.** Never delete a lapse line. The history is signal.
@@ -52,8 +53,8 @@ When {cue}, I open the workspace and run the session, because I get {reward}.
 
 - **Created** in round 2 of session zero, after `MISSION.md` and before session 1: the seven fields, defaults proposed from what the mission says limits the learner.
 - **Touched every session**: the ritual prints What pulls you back and Reward at the start; the agent writes the `done` line at the end.
-- **Lapse detected** at the start of a session when the gap exceeds twice the interval in How often, or when the learner reports it.
-- **First lapse**: one three-way question (cue did not fire / did something else / not worth it), one field changed, lesson continues.
+- **Lapse detected** at the start of a session when the gap exceeds twice the interval in How often, or when the learner reports it. Holidays and days the learner announced beforehand are outside the gap; ask before counting a day you cannot place.
+- **First lapse**: one three-way question (cue did not fire / did something else / not worth it) that also asks for the one-word reason the log line needs. Offer one field change, once; keeping the plan is a valid answer. The lesson continues.
 - **Second consecutive lapse, or the learner says they stopped**: a habit session replaces the lesson and runs the appendix checklist from `references/duhigg.md`. A temporary `## Tally` section may exist for a few days of cue counting; the next consolidation removes it.
 - **Structural review** at `Next review:` (`14d` after creation, then `30d` repeating; line format and label in `REVIEW-FORMAT.md`) and after every habit session: reopen cue, reward and plan with the learner, check whether the stated reward is the craved one, compact the log.
 - Written in the learner's language, headings included.
